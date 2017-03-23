@@ -1611,7 +1611,6 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
     step.successSound = successSoundID;
     step.timeoutSound = timeoutSoundID;
     step.failureSound = failureSoundID;
-    step.recorderConfigurations = @[ [[ORKDeviceMotionRecorderConfiguration  alloc] initWithIdentifier:ORKDeviceMotionRecorderIdentifier frequency: 100]];
 
     ORKStepArrayAddStep(steps, step);
     

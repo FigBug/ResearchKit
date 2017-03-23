@@ -60,6 +60,7 @@
     BOOL _testEnded;
     NSMutableArray<NSNumber*>* tests;
     BOOL go;
+    UIButton* tapArea;
 }
 
 - (instancetype)initWithStep:(ORKStep *)step {
@@ -108,6 +109,18 @@ static const NSTimeInterval OutcomeAnimationDuration = 0.3;
     
     self.activeStepView.activeCustomView = _gonogoContentView;
     self.activeStepView.stepViewFillsAvailableSpace = YES;
+    
+    tapArea = [UIButton buttonWithType:UIButtonTypeCustom];
+    [tapArea addTarget:self action:@selector(viewTapped:) forControlEvents:UIControlEventTouchDown];
+    [self.view addSubview:tapArea];
+}
+
+- (void)viewWillLayoutSubviews {
+    tapArea.frame = self.view.bounds;
+}
+
+- (void)viewTapped:(id)sender {
+    [self attemptDidFinish];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -125,7 +138,6 @@ static const NSTimeInterval OutcomeAnimationDuration = 0.3;
     _shouldIndicateFailure = NO;
     _testActive = NO;
     
-    [self stopRecorders];
     [_stimulusTimer invalidate];
     _stimulusTimer = nil;
     [_timeoutTimer invalidate];
@@ -166,7 +178,6 @@ static const NSTimeInterval OutcomeAnimationDuration = 0.3;
     _stimulusTimer = nil;
     [_timeoutTimer invalidate];
     _timeoutTimer = nil;
-    [self stopRecorders];
     [_gonogoContentView cancelReset];
 }
 
@@ -175,30 +186,6 @@ static const NSTimeInterval OutcomeAnimationDuration = 0.3;
     if (!_testEnded) {
         _testActive = YES;
         [self resetAfterDelay:0];
-    }
-}
-
-#pragma mark - ORKRecorderDelegate
-
-- (void)recorder:(ORKRecorder *)recorder didCompleteWithResult:(ORKResult *)result {
-    [self attemptDidFinish];
-}
-
-#pragma mark - ORKDeviceMotionRecorderDelegate
-
-- (void)deviceMotionRecorderDidUpdateWithMotion:(CMDeviceMotion *)motion {
-    CMAcceleration v = motion.userAcceleration;
-    double vectorMagnitude = sqrt(((v.x * v.x) + (v.y * v.y) + (v.z * v.z)));
-    
-    if (self.started && _samples != nil) {
-        ORKGoNoGoSample *sample = [ORKGoNoGoSample new];
-        sample.timestamp = [NSProcessInfo processInfo].systemUptime;
-        sample.vectorMagnitude = vectorMagnitude;
-        [_samples addObject:sample];
-    }
-    
-    if (vectorMagnitude > [self gonogoTimeStep].thresholdAcceleration) {
-        [self stopRecorders];
     }
 }
 
@@ -371,12 +358,8 @@ static const NSTimeInterval OutcomeAnimationDuration = 0.3;
     _timeoutTimer = nil;
     _validResult = NO;
     _timedOut = YES;
-    [self stopRecorders];
     
-#if TARGET_IPHONE_SIMULATOR
-    // Device motion recorder won't work, so manually trigger didfinish
     [self attemptDidFinish];
-#endif
 }
 
 - (NSTimeInterval)stimulusInterval {

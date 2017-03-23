@@ -100,6 +100,7 @@
     _stimulusView = [[ORKGoNoGoStimulusView alloc] initWithBackgroundColor:self.stimulusColor];
     _stimulusView.translatesAutoresizingMaskIntoConstraints = NO;
     _stimulusView.backgroundColor = self.stimulusColor;
+    _stimulusView.userInteractionEnabled = YES;
     [self addSubview:_stimulusView];
     [self setUpStimulusViewConstraints];
 }
