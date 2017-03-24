@@ -42,6 +42,7 @@
 #import "ORKStepViewController_Internal.h"
 
 #import "ORKActiveStep.h"
+#import "ORKCountdownStep.h"
 #import "ORKResult.h"
 
 #import "ORKAccessibility.h"
@@ -54,7 +55,7 @@
 
 @implementation ORKCountDownViewLabel
 + (UIFont *)defaultFont {
-    return ORKThinFontWithSize(56);
+    return ORKThinFontWithSize(40);
 }
 @end
 
@@ -217,12 +218,17 @@ static const CGFloat ProgressIndicatorOuterMargin = 1.0;
     if (self) {
         self.suspendIfInactive = NO;
     }
+    
     return self;
 }
 
 - (void)setStep:(ORKStep *)step {
     [super setStep:step];
     _countDown = round([(ORKActiveStep *)step stepDuration]);
+    ORKCountdownStep* countdownStep = (ORKCountdownStep*)step;
+    if (countdownStep.countdownText != nil) {
+        _countdownView.textLabel.text = countdownStep.countdownText;
+    }
 }
 
 - (void)viewDidLoad {
@@ -233,6 +239,11 @@ static const CGFloat ProgressIndicatorOuterMargin = 1.0;
     _countdownView = [[ORKCountdownView alloc] init];
     _countdownView.translatesAutoresizingMaskIntoConstraints = NO;
     self.activeStepView.activeCustomView = _countdownView;
+    
+    ORKCountdownStep* countdownStep = (ORKCountdownStep*)self.step;
+    if (countdownStep.countdownText != nil) {
+        _countdownView.textLabel.text = countdownStep.countdownText;
+    }
     
     [self updateCountdownLabel];
 }
@@ -245,7 +256,11 @@ static const CGFloat ProgressIndicatorOuterMargin = 1.0;
 }
 
 - (void)updateCountdownLabel {
-    _countdownView.timeLabel.text = ORKLocalizedStringFromNumber(@(_countDown));
+    if (_countDown >= 60) {
+        _countdownView.timeLabel.text = [NSString stringWithFormat:@"%d:%.2d", (int)_countDown / 60, (int)_countDown % 60];
+    } else {
+        _countdownView.timeLabel.text = ORKLocalizedStringFromNumber(@(_countDown));
+    }
 }
 
 - (void)countDownTimerFired:(ORKActiveStepTimer *)timer finished:(BOOL)finished {

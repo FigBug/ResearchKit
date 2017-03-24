@@ -48,6 +48,8 @@ NS_ASSUME_NONNULL_BEGIN
 ORK_CLASS_AVAILABLE
 @interface ORKCountdownStep : ORKActiveStep
 
+@property (nonatomic, copy) NSString* countdownText;
+
 @end
 
 NS_ASSUME_NONNULL_END
