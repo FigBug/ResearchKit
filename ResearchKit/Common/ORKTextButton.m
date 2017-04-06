@@ -55,6 +55,14 @@
     return self;
 }
 
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        [self init_ORKTextButton];
+    }
+    return self;
+}
+
 - (void)init_ORKTextButton {
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(updateAppearance)
