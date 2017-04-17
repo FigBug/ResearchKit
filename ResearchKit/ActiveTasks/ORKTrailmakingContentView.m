@@ -119,7 +119,7 @@
         [self addSubview:_testView];
         
         NSMutableArray* buttons = [NSMutableArray array];
-        for (int i = 0; i < 13; i++)
+        for (int i = 0; i < 25; i++)
         {
             ORKRoundTappingButton* b = [[ORKRoundTappingButton alloc] init];
             
