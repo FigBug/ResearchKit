@@ -127,15 +127,15 @@
     int cx;
     
     if (screenSize >= 736) {
-        cx = 50;  // iPhone 6+/7+
+        cx = 70;  // iPhone 6+/7+
     } else if (screenSize >= 667) {
         cx = 45; // iPhone 6/7
     } else {
         cx = 40;  // iPhone 5/SE
     }
     
-    CGRect labelRect = _trailmakingContentView.testArea;
-    labelRect.size.height = 20;
+    CGRect testFrame = _trailmakingContentView.frame;
+    CGRect labelRect = CGRectMake(testFrame.origin.x, 0, testFrame.size.width, 20);
     [timerLabel setFrame:labelRect];
     
     CGRect r = _trailmakingContentView.testArea;
