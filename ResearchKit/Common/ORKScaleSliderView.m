@@ -74,7 +74,11 @@
         _slider.minimumValue = [formatProvider minimumNumber].floatValue;
         
         NSInteger numberOfSteps = [formatProvider numberOfSteps];
-        _slider.numberOfSteps = numberOfSteps;
+        if ([formatProvider respondsToSelector:@selector(continuous)] && formatProvider.continuous) {
+            _slider.numberOfSteps = 0;
+        } else {
+            _slider.numberOfSteps = numberOfSteps;
+        }
         
         [_slider addTarget:self action:@selector(sliderValueChanged:) forControlEvents:UIControlEventValueChanged];
 
@@ -535,9 +539,14 @@
 }
 
 - (id)currentAnswerValue {
-    if ([self textScaleFormatProvider]) {
-        id<NSCopying, NSCoding, NSObject> value = [self currentTextChoiceValue];
-        return value ? @[value] : @[];
+    id<ORKTextScaleAnswerFormatProvider> fmt = [self textScaleFormatProvider];
+    if (fmt) {
+        if ([fmt respondsToSelector:@selector(continuous)] && fmt.continuous) {
+            return _currentNumberValue ? @[_currentNumberValue] : @[];
+        } else {
+            id<NSCopying, NSCoding, NSObject> value = [self currentTextChoiceValue];
+            return value ? @[value] : @[];
+        }
     } else {
         return _currentNumberValue;
     }

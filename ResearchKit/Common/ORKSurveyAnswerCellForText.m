@@ -102,6 +102,8 @@
         [self applyAnswerFormat];
         
         [self answerDidChange];
+        
+        [self ork_setAnswer:(self.textView.text.length > 0) ? self.textView.text : @" "];
     }
     [super prepareView];
 }
@@ -135,7 +137,7 @@
 }
 
 - (void)textDidChange {
-    [self ork_setAnswer:(self.textView.text.length > 0) ? self.textView.text : ORKNullAnswerValue()];
+    [self ork_setAnswer:(self.textView.text.length > 0) ? self.textView.text : @" "];
 }
 
 - (BOOL)shouldContinue {

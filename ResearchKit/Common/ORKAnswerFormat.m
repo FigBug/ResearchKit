@@ -309,6 +309,17 @@ NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattingStyle 
                                                         vertical:vertical];
 }
 
++ (ORKTextScaleAnswerFormat *)textScaleAnswerFormatWithTextChoices:(NSArray <ORKTextChoice *> *)textChoices
+                                                      defaultIndex:(NSInteger)defaultIndex
+                                                          vertical:(BOOL)vertical
+                                                        continuous:(BOOL)continuous
+{
+    return [[ORKTextScaleAnswerFormat alloc] initWithTextChoices:textChoices
+                                                    defaultIndex:defaultIndex
+                                                        vertical:vertical
+                                                      continuous:continuous];
+}
+
 + (ORKBooleanAnswerFormat *)booleanAnswerFormat {
     return [ORKBooleanAnswerFormat new];
 }
@@ -2015,10 +2026,24 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
         _textChoices = [textChoices copy];
         _defaultIndex = defaultIndex;
         _vertical = vertical;
+        _continuous = NO;
         _helper = [[ORKChoiceAnswerFormatHelper alloc] initWithAnswerFormat:self];
         
         [self validateParameters];
     }
+    return self;
+}
+
+- (instancetype)initWithTextChoices:(NSArray<ORKTextChoice *> *)textChoices
+                       defaultIndex:(NSInteger)defaultIndex
+                           vertical:(BOOL)vertical
+                         continuous:(BOOL)continuous
+{
+    self = [self initWithTextChoices:textChoices
+                        defaultIndex:defaultIndex
+                            vertical:vertical];
+    _continuous = continuous;
+    
     return self;
 }
 
@@ -2063,7 +2088,7 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
         _numberFormatter = [[NSNumberFormatter alloc] init];
         _numberFormatter.numberStyle = NSNumberFormatterDecimalStyle;
         _numberFormatter.locale = [NSLocale autoupdatingCurrentLocale];
-        _numberFormatter.maximumFractionDigits = 0;
+        _numberFormatter.maximumFractionDigits = _continuous ? 2 : 0;
     }
     return _numberFormatter;
 }
@@ -2073,7 +2098,11 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
 }
 
 - (NSNumber *)normalizedValueForNumber:(NSNumber *)number {
-    return @([number integerValue]);
+    if (_continuous) {
+        return number;
+    } else {
+        return @([number integerValue]);
+    }
 }
 
 - (ORKTextChoice *)textChoiceAtIndex:(NSUInteger)index {
@@ -2122,6 +2151,7 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
         ORK_DECODE_OBJ_ARRAY(aDecoder, gradientLocations, NSNumber);
         ORK_DECODE_INTEGER(aDecoder, defaultIndex);
         ORK_DECODE_BOOL(aDecoder, vertical);
+        ORK_DECODE_BOOL(aDecoder, continuous);
     }
     return self;
 }
@@ -2133,6 +2163,7 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
     ORK_ENCODE_OBJ(aCoder, gradientLocations);
     ORK_ENCODE_INTEGER(aCoder, defaultIndex);
     ORK_ENCODE_BOOL(aCoder, vertical);
+    ORK_ENCODE_BOOL(aCoder, continuous);
 }
 
 + (BOOL)supportsSecureCoding {
@@ -2147,6 +2178,7 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
             ORKEqualObjects(self.textChoices, castObject.textChoices) &&
             (_defaultIndex == castObject.defaultIndex) &&
             (_vertical == castObject.vertical) &&
+            (_continuous == castObject.continuous) &&
             ORKEqualObjects(self.gradientColors, castObject.gradientColors) &&
             ORKEqualObjects(self.gradientLocations, castObject.gradientLocations));
 }
@@ -2253,7 +2285,7 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
 
 - (BOOL)isAnswerValidWithString:(NSString *)text {
     BOOL isValid = YES;
-    if (text && text.length > 0) {
+    if (text) {
         isValid = ([self isTextLengthValidWithString:text] && [self isTextRegexValidWithString:text]);
     }
     return isValid;

@@ -114,6 +114,11 @@ ORK_CLASS_AVAILABLE
                                                       defaultIndex:(NSInteger)defaultIndex
                                                           vertical:(BOOL)vertical;
 
++ (ORKTextScaleAnswerFormat *)textScaleAnswerFormatWithTextChoices:(NSArray <ORKTextChoice *> *)textChoices
+                                                      defaultIndex:(NSInteger)defaultIndex
+                                                          vertical:(BOOL)vertical
+                                                        continuous:(BOOL)continuous;
+
 + (ORKBooleanAnswerFormat *)booleanAnswerFormat;
 
 + (ORKValuePickerAnswerFormat *)valuePickerAnswerFormatWithTextChoices:(NSArray<ORKTextChoice *> *)textChoices;
@@ -553,6 +558,28 @@ ORK_CLASS_AVAILABLE
 /**
  Returns an initialized text scale answer format using the specified values.
  
+ This method is the designated initializer.
+ 
+ @param textChoices                 An array of text choices which will be used to determine the
+                                    number of steps in the slider, and
+                                    to fill the text label next to each of the steps. The array must
+                                    contain between 2 and 8 text choices.
+ @param defaultIndex                The default index of the scale. If this value is out of range,
+                                    the slider is displayed without a default value.
+ @param vertical                    Pass `YES` to use a vertical scale; for the default horizontal
+                                    scale, pass `NO`.
+ @param continuous                  Allow any numerical value to be returned
+ 
+ @return An initialized text scale answer format.
+ */
+- (instancetype)initWithTextChoices:(NSArray<ORKTextChoice *> *)textChoices
+                       defaultIndex:(NSInteger)defaultIndex
+                           vertical:(BOOL)vertical
+                         continuous:(BOOL)continuous;
+
+/**
+ Returns an initialized text scale answer format using the specified values.
+ 
  This method is a convenience initializer.
  
  @param textChoices                 An array of text choices which will be used to determine the
@@ -605,6 +632,8 @@ ORK_CLASS_AVAILABLE
  If nil, the stops are spread uniformly across the range. Defaults to nil.
  */
 @property (copy, nullable) NSArray<NSNumber *> *gradientLocations;
+
+@property (readonly) BOOL continuous;
 
 @end
 
