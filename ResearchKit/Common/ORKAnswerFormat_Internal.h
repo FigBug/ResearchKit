@@ -139,6 +139,9 @@ ORK_DESIGNATE_CODING_AND_SERIALIZATION_INITIALIZERS(ORKHeightAnswerFormat)
 - (nullable NSArray<UIColor *> *)gradientColors;
 - (nullable NSArray<NSNumber *> *)gradientLocations;
 
+@optional
+- (BOOL)continuous;
+
 @end
 
 
