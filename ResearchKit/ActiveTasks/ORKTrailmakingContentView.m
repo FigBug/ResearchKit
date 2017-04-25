@@ -175,6 +175,22 @@
 - (void)setError:(int)buttonIdex {
     ORKRoundTappingButton* button = [_tapButtons objectAtIndex:buttonIdex];
     [button setTintColor:[UIColor redColor]];
+
+    UIView *flashView = [[UIView alloc] initWithFrame:self.superview.superview.bounds];
+    flashView.backgroundColor = [UIColor colorWithRed:255/255.0f
+                                                green:0/255.0f
+                                                 blue:0/255.0f
+                                                alpha:0.5f];
+    
+    [self.superview.superview addSubview:flashView];
+    [UIView animateWithDuration:0.5 delay:0.1 options:0 animations:^{
+        flashView.alpha = 0.0f;
+    } completion:^(BOOL finished) {
+        [flashView removeFromSuperview];
+    }];
+     
+
+    
 }
 
 - (void)clearErrors {
