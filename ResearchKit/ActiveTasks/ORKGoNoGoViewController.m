@@ -212,7 +212,7 @@ static const NSTimeInterval OutcomeAnimationDuration = 0.3;
     }
     
     NSString *format = ORKLocalizedString(@"GONOGO_TASK_ATTEMPTS_FORMAT", nil);
-    NSString *text = [NSString localizedStringWithFormat:format, ORKLocalizedStringFromNumber(@(successCount + 1)), ORKLocalizedStringFromNumber(@([self gonogoTimeStep].numberOfAttempts))];
+    NSString *text = [NSString localizedStringWithFormat:format, ORKLocalizedStringFromNumber(@(successCount + errorCount + 1)), ORKLocalizedStringFromNumber(@([self gonogoTimeStep].numberOfAttempts))];
     
     if (errorCount > 0) {
         NSString *errorsFormat = ORKLocalizedString(@"GONOGO_TASK_ERRORS_FORMAT", nil);
@@ -231,13 +231,17 @@ static const NSTimeInterval OutcomeAnimationDuration = 0.3;
 - (void)attemptDidFinish {
     void (^completion)(void) = ^{
         int successCount = 0;
+        int errorCount = 0;
         for (ORKGoNoGoResult* res in _results) {
             if (res.incorrect == NO) {
                 successCount++;
             }
+            else {
+                errorCount++;
+            }
         }
         
-        if (successCount == [self gonogoTimeStep].numberOfAttempts) {
+        if ((successCount+errorCount) == [self gonogoTimeStep].numberOfAttempts) {
             _testEnded = YES;
             [self finish];
         } else {
