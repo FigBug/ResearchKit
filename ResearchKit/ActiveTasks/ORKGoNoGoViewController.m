@@ -71,7 +71,7 @@
     return self;
 }
 
-static const NSTimeInterval OutcomeAnimationDuration = 0.3;
+static const NSTimeInterval OutcomeAnimationDuration = 0.1;
 
 #pragma mark - UIViewController
 
@@ -249,7 +249,7 @@ static const NSTimeInterval OutcomeAnimationDuration = 0.3;
             // and the animation complete block will start the next test
             // after we've already tried to cancel. Don't let that happen
             if (_testActive) {
-                [self resetAfterDelay:2];
+                [self resetAfterDelay:0.5];
             }
         }
     };
