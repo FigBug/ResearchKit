@@ -38,6 +38,22 @@
 #import "ORKHelpers_Internal.h"
 #import "ORKSkin.h"
 
+@interface MagicTableView : UITableView
+
+@end
+
+@implementation MagicTableView
+
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    // Intercept touches 100pt outside this view's bounds on all sides
+    if (CGRectContainsPoint(CGRectInset(self.bounds, -100, -100), point)) {
+        return self;
+    }
+    return nil;
+}
+
+@end
+
 
 // Enable this define to see outlines and colors of all the views laid out at this level.
 // #define LAYOUT_DEBUG
@@ -59,7 +75,7 @@
     
     UITapGestureRecognizer *_tapOffGestureRecognizer;
 }
-    
+
 - (instancetype)initWithFrame:(CGRect)frame {
     return [self initWithFrame:frame style:UITableViewStyleGrouped];
 }
@@ -69,7 +85,7 @@
     if (self) {
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
         
-        _tableView = [[UITableView alloc] initWithFrame:self.bounds style:style];
+        _tableView = [[MagicTableView alloc] initWithFrame:self.bounds style:style];
         _tableView.backgroundColor = ORKColor(ORKBackgroundColorKey);
         _tableView.allowsSelection = YES;
         _tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
