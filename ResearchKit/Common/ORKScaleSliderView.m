@@ -498,6 +498,7 @@
             self.valueLabel.text = textChoice.text;
         } else {
             NSNumber *newValue = [_formatProvider normalizedValueForNumber:_currentNumberValue];
+            newValue = [NSNumber numberWithInt: newValue.doubleValue + 0.5];
             _valueLabel.text = [_formatProvider localizedStringForNumber:newValue];
         }
     } else {

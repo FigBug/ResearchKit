@@ -1682,7 +1682,7 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
 - (void)validateParameters {
     [super validateParameters];
     
-    const NSInteger ORKScaleAnswerFormatMinimumStepSize = 1;
+    //const NSInteger ORKScaleAnswerFormatMinimumStepSize = 1;
     const NSInteger ORKScaleAnswerFormatMinimumStepCount = 1;
     const NSInteger ORKScaleAnswerFormatMaximumStepCount = 13;
     
@@ -1693,22 +1693,27 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
         @throw [NSException exceptionWithName:NSInvalidArgumentException reason:[NSString stringWithFormat:@"Expect maximumValue larger than minimumValue"] userInfo:nil];
     }
     
+    /*
     if (_step < ORKScaleAnswerFormatMinimumStepSize) {
         @throw [NSException exceptionWithName:NSInvalidArgumentException
                                        reason:[NSString stringWithFormat:@"Expect step value not less than than %@.", @(ORKScaleAnswerFormatMinimumStepSize)]
                                      userInfo:nil];
+    }*/
+    
+    if (_step > 0) {
+        NSInteger mod = (_maximum - _minimum) % _step;
+        if (mod != 0) {
+            @throw [NSException exceptionWithName:NSInvalidArgumentException reason:[NSString stringWithFormat:@"Expect the difference between maximumValue and minimumValue is divisible by step value"] userInfo:nil];
+        }
     }
     
-    NSInteger mod = (_maximum - _minimum) % _step;
-    if (mod != 0) {
-        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:[NSString stringWithFormat:@"Expect the difference between maximumValue and minimumValue is divisible by step value"] userInfo:nil];
-    }
-    
-    NSInteger steps = (_maximum - _minimum) / _step;
-    if (steps < ORKScaleAnswerFormatMinimumStepCount || steps > ORKScaleAnswerFormatMaximumStepCount) {
-        @throw [NSException exceptionWithName:NSInvalidArgumentException
-                                       reason:[NSString stringWithFormat:@"Expect the total number of steps between minimumValue and maximumValue more than %@ and no more than %@.", @(ORKScaleAnswerFormatMinimumStepCount), @(ORKScaleAnswerFormatMaximumStepCount)]
-                                     userInfo:nil];
+    if (_step > 0) {
+        NSInteger steps = (_maximum - _minimum) / _step;
+        if (steps < ORKScaleAnswerFormatMinimumStepCount || steps > ORKScaleAnswerFormatMaximumStepCount) {
+            @throw [NSException exceptionWithName:NSInvalidArgumentException
+                                           reason:[NSString stringWithFormat:@"Expect the total number of steps between minimumValue and maximumValue more than %@ and no more than %@.", @(ORKScaleAnswerFormatMinimumStepCount), @(ORKScaleAnswerFormatMaximumStepCount)]
+                                         userInfo:nil];
+        }
     }
     
     if (_minimum < ORKScaleAnswerFormatValueLowerbound) {
