@@ -89,6 +89,7 @@
 - (void)updateTitle:(NSString *)title text:(NSString *)text {
     ORKStepHeaderView *headerView = [self headerView];
     [headerView.captionLabel setText:title];
+    headerView.captionLabel.hidden = (title == nil);
     [headerView.instructionLabel setText:text];
     headerView.instructionLabel.hidden = (text == nil);
     [headerView updateCaptionLabelPreferredWidth];

@@ -219,13 +219,14 @@ static const NSTimeInterval OutcomeAnimationDuration = 0.1;
         NSString *errorsText = [NSString localizedStringWithFormat:errorsFormat, errorCount];
         text = [text stringByAppendingString:errorsText];
     }
+    /*
     if (lastReactionTime > 0) {
         NSString *reactionFormat = ORKLocalizedString(@"GONOGO_TASK_REACTION_FORMAT", nil);
         NSString *reactionText = [NSString localizedStringWithFormat:reactionFormat, lastReactionTime];
         text = [text stringByAppendingString:reactionText];
-    }
+    }*/
     
-    [self.activeStepView updateTitle:ORKLocalizedString(@"GONOGO_TASK_ACTIVE_STEP_TITLE", nil) text:text];
+    [self.activeStepView updateTitle:nil text:text];
 }
 
 - (void)attemptDidFinish {
