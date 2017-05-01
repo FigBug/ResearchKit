@@ -46,8 +46,13 @@
 
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
     // Intercept touches 100pt outside this view's bounds on all sides
-    if (CGRectContainsPoint(CGRectInset(self.bounds, -100, -100), point)) {
-        return self;
+    if (CGRectContainsPoint(CGRectInset(self.bounds, -115, -115), point)) {
+        UIView* res = [super hitTest:point withEvent:event];
+        
+        if (res == nil)
+            return self;
+        else
+            return res;
     }
     return nil;
 }
