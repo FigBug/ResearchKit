@@ -186,6 +186,11 @@
         tap.index = buttonIndex;
         
         if (buttonIndex == nextIndex) {
+
+            if ((int)buttonIndex - 1 >= 0)
+                _trailmakingContentView.tapButtons[buttonIndex - 1].selected = NO;
+            _trailmakingContentView.tapButtons[buttonIndex].selected = YES;
+            
             nextIndex++;
             
             _trailmakingContentView.linesToDraw = nextIndex - 1;

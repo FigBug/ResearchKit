@@ -88,19 +88,23 @@ static const NSTimeInterval OutcomeAnimationDuration = 0.1;
     // Generate the type of tests we are going to display
     // Always do go first, and make sure there is at least 1 no-go
     tests = [NSMutableArray array];
-    [tests addObject:[NSNumber numberWithBool:YES]];
+    while (tests.count < [self gonogoTimeStep].numberOfAttempts / 2) {
+        [tests addObject:@NO];
+    }
     while (tests.count < [self gonogoTimeStep].numberOfAttempts) {
-        [tests addObject:[NSNumber numberWithBool:((float)arc4random_uniform(RAND_MAX) / RAND_MAX) < 0.667]];
+        [tests addObject:@YES];
     }
     
-    // Check to make sure we have a no go
-    BOOL hasNoGo = [tests containsObject:@NO];
-    
-    // If none of the test are a 'no go', put a 'no go' in the array in a random position
-    // unless the array is size 1 since we always want the first test to be a 'go'
-    if (!hasNoGo && tests.count > 1) {
-        [tests setObject:@NO atIndexedSubscript:arc4random_uniform((uint32_t)tests.count - 1) + 1];
+    // shuffle
+    NSUInteger count = [tests count];
+    if (count > 1) {
+        for (NSUInteger i = 0; i < count - 1; ++i) {
+            NSInteger remainingCount = count - i;
+            NSInteger exchangeIndex = i + arc4random_uniform((u_int32_t )remainingCount);
+            [tests exchangeObjectAtIndex:i withObjectAtIndex:exchangeIndex];
+        }
     }
+    
     
     go = [self getNextTestType];
     

@@ -188,8 +188,6 @@
     } completion:^(BOOL finished) {
         [flashView removeFromSuperview];
     }];
-     
-
     
 }
 
