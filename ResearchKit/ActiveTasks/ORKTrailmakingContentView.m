@@ -177,6 +177,7 @@
     [button setTintColor:[UIColor redColor]];
 
     UIView *flashView = [[UIView alloc] initWithFrame:self.superview.superview.bounds];
+    flashView.userInteractionEnabled = NO;
     flashView.backgroundColor = [UIColor colorWithRed:255/255.0f
                                                 green:0/255.0f
                                                  blue:0/255.0f
