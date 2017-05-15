@@ -122,6 +122,9 @@
         for (int i = 0; i < 25; i++)
         {
             ORKRoundTappingButton* b = [[ORKRoundTappingButton alloc] init];
+            b.layer.borderWidth = 2.0;
+            b.tintColor = [UIColor blueColor];
+            [b setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
             
             NSString* title;
             if ([trailType isEqual:@"A"]) {
@@ -175,7 +178,9 @@
 - (void)setError:(int)buttonIdex {
     ORKRoundTappingButton* button = [_tapButtons objectAtIndex:buttonIdex];
     [button setTintColor:[UIColor redColor]];
+    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
 
+    /*
     UIView *flashView = [[UIView alloc] initWithFrame:self.superview.superview.bounds];
     flashView.userInteractionEnabled = NO;
     flashView.backgroundColor = [UIColor colorWithRed:255/255.0f
@@ -189,12 +194,13 @@
     } completion:^(BOOL finished) {
         [flashView removeFromSuperview];
     }];
-    
+    */
 }
 
 - (void)clearErrors {
     for (ORKRoundTappingButton* button in _tapButtons) {
-        [button setTintColor:self.tintColor];
+        [button setTintColor:[UIColor blueColor]];
+        [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     }
 }
 

@@ -1145,7 +1145,8 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
 }
 
 - (BOOL)shouldDisplayProgressLabel {
-    return self.showsProgressInNavigationBar && [_task respondsToSelector:@selector(progressOfCurrentStep:withResult:)] && self.currentStepViewController.step.showsProgress && !(self.currentStepViewController.parentReviewStep.isStandalone);
+    //return self.showsProgressInNavigationBar && [_task respondsToSelector:@selector(progressOfCurrentStep:withResult:)] && self.currentStepViewController.step.showsProgress && !(self.currentStepViewController.parentReviewStep.isStandalone);
+    return NO;
 }
 
 #pragma mark - internal action Handlers

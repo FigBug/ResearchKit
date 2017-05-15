@@ -53,9 +53,7 @@ static const CGFloat RoundTappingButtonDiameter = 104;
 
 + (UIFont *)defaultFont {
     // regular, 20
-    UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleHeadline];
-    
-    UIFont *font = [UIFont fontWithName:@"CourierNewPS-BoldMT" size:((NSNumber *)[descriptor objectForKey:UIFontDescriptorSizeAttribute]).doubleValue + 3.0];
+    UIFont *font = [UIFont fontWithName:@"CourierNewPS-BoldMT" size:20.0];
     return font;
     //return [UIFont systemFontOfSize:((NSNumber *)[descriptor objectForKey:UIFontDescriptorSizeAttribute]).doubleValue + 3.0];
 }

@@ -127,7 +127,7 @@
     int cx;
     
     if (screenSize >= 736) {
-        cx = 70;  // iPhone 6+/7+
+        cx = 74;  // iPhone 6+/7+
     } else if (screenSize >= 667) {
         cx = 45; // iPhone 6/7
     } else {
