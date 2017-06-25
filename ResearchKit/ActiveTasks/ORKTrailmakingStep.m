@@ -37,6 +37,7 @@
 
 #import "ORKHelpers_Internal.h"
 
+extern NSMutableArray* globalResultsArr;
 
 @implementation ORKTrailmakingStep
 
@@ -105,5 +106,14 @@
             [self.trailType isEqual:castObject.trailType]);
 }
 
++ (void)clearGlobalResults
+{
+    [globalResultsArr removeAllObjects];
+}
+
++ (NSArray<NSNumber*>*)globalResults
+{
+    return [globalResultsArr copy];
+}
 
 @end

@@ -49,6 +49,8 @@
 
 #define BOUND(lo, hi, v) (((v) < (lo)) ? (lo) : (((v) > (hi)) ? (hi) : (v)))
 
+NSMutableArray* globalResultsArr = nil;
+
 @interface ORKTrailmakingStepViewController ()
 
 @end
@@ -107,8 +109,8 @@
 }
 
 - (void)timerUpdated:(NSTimer*)timer {
-    NSTimeInterval elapsed = [[NSDate date] timeIntervalSinceDate: self.presentedDate];
-    NSString *text = [NSString localizedStringWithFormat:ORKLocalizedString(@"TRAILMAKING_TIMER", nil), elapsed];
+    //NSTimeInterval elapsed = [[NSDate date] timeIntervalSinceDate: self.presentedDate];
+    //NSString *text = [NSString localizedStringWithFormat:ORKLocalizedString(@"TRAILMAKING_TIMER", nil), elapsed];
     
     /*
     if (errors == 1) {
@@ -117,7 +119,7 @@
         text = [NSString localizedStringWithFormat:ORKLocalizedString(@"TRAILMAKING_ERROR_PLURAL", nil), text, errors];
     }*/
     
-    timerLabel.text = text;
+    //timerLabel.text = text;
 }
 
 - (void)viewWillLayoutSubviews {
@@ -198,6 +200,16 @@
             _trailmakingContentView.linesToDraw = nextIndex - 1;
             if (nextIndex == _trailmakingContentView.tapButtons.count) {
                 [self performSelector:@selector(finish) withObject:nil afterDelay:1.5];
+                
+                NSTimeInterval elapsed = [[NSDate date] timeIntervalSinceDate: self.presentedDate];
+                NSString *text = [NSString localizedStringWithFormat:ORKLocalizedString(@"TRAILMAKING_TIMER", nil), elapsed];
+                timerLabel.text = text;
+                
+                if (globalResultsArr == nil)
+                    globalResultsArr = [NSMutableArray array];
+                
+                [globalResultsArr addObject:[NSNumber numberWithDouble:elapsed]];
+
                 timerLabel.hidden = NO;
                 [updateTimer invalidate];
                 updateTimer = nil;

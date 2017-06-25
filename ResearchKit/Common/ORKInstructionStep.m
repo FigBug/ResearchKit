@@ -60,6 +60,7 @@
     if (self) {
         ORK_DECODE_OBJ_CLASS(aDecoder, detailText, NSString);
         ORK_DECODE_OBJ_CLASS(aDecoder, footnote, NSString);
+        ORK_DECODE_OBJ_CLASS(aDecoder, buttonText, NSString);
         ORK_DECODE_IMAGE(aDecoder, image);
         ORK_DECODE_IMAGE(aDecoder, auxiliaryImage);
         ORK_DECODE_IMAGE(aDecoder, iconImage);
@@ -71,6 +72,7 @@
     [super encodeWithCoder:aCoder];
     ORK_ENCODE_OBJ(aCoder, detailText);
     ORK_ENCODE_OBJ(aCoder, footnote);
+    ORK_ENCODE_OBJ(aCoder, buttonText);
     ORK_ENCODE_IMAGE(aCoder, image);
     ORK_ENCODE_IMAGE(aCoder, auxiliaryImage);
     ORK_ENCODE_IMAGE(aCoder, iconImage);
@@ -84,9 +86,11 @@
     ORKInstructionStep *step = [super copyWithZone:zone];
     step.detailText = self.detailText;
     step.footnote = self.footnote;
+    step.buttonText = self.buttonText;
     step.image = self.image;
     step.auxiliaryImage = self.auxiliaryImage;
     step.iconImage = self.iconImage;
+    step.textBlock = self.textBlock;
     return step;
 }
 
@@ -97,13 +101,15 @@
     return isParentSame &&
         ORKEqualObjects(self.detailText, castObject.detailText) &&
         ORKEqualObjects(self.footnote, castObject.footnote) &&
+        ORKEqualObjects(self.buttonText, castObject.buttonText) &&
         ORKEqualObjects(self.image, castObject.image) &&
         ORKEqualObjects(self.auxiliaryImage, castObject.auxiliaryImage) &&
-        ORKEqualObjects(self.iconImage, castObject.iconImage);
+        ORKEqualObjects(self.iconImage, castObject.iconImage) &&
+        self.textBlock == castObject.textBlock;
 }
 
 - (NSUInteger)hash {
-    return super.hash ^ self.detailText.hash ^ self.footnote.hash;
+    return super.hash ^ self.detailText.hash ^ self.footnote.hash ^ self.buttonText.hash;
 }
 
 @end

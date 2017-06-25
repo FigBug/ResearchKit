@@ -75,6 +75,8 @@
     [super viewWillAppear:animated];
     
     [self.taskViewController setRegisteredScrollView:_stepView];
+    
+    [self.stepView refresh];
 }
 
 - (void)viewDidLoad {
@@ -84,7 +86,12 @@
 }
 
 - (void)useAppropriateButtonTitleAsLastBeginningInstructionStep {
-    self.internalContinueButtonItem.title = ORKLocalizedString(@"BUTTON_GET_STARTED",nil);
+    NSString* txt = [self instructionStep].buttonText;
+    if (txt) {
+        self.internalContinueButtonItem.title = txt;
+    } else {
+        self.internalContinueButtonItem.title = ORKLocalizedString(@"BUTTON_GET_STARTED",nil);
+    }
 }
 
 - (void)setContinueButtonItem:(UIBarButtonItem *)continueButtonItem {

@@ -44,6 +44,9 @@ ORK_CLASS_AVAILABLE
  */
 @property (nonatomic, copy) ORKTrailMakingTypeIdentifier trailType;
 
++ (void)clearGlobalResults;
++ (NSArray<NSNumber*>*)globalResults;
+
 @end
 
 NS_ASSUME_NONNULL_END

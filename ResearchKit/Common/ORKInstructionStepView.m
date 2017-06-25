@@ -146,7 +146,7 @@
     
     NSMutableAttributedString *attributedInstruction = [[NSMutableAttributedString alloc] init];
     NSString *detail = _instructionStep.detailText;
-    NSString *text = _instructionStep.text;
+    NSString *text = _instructionStep.textBlock ? _instructionStep.textBlock() : _instructionStep.text;
     detail = detail.length ? detail : nil;
     text = text.length ? text : nil;
     
@@ -180,6 +180,29 @@
     
     const CGFloat IllustrationHeight = ORKGetMetricForWindow(ORKScreenMetricInstructionImageHeight, window);
     _imageContainerHeightConstraint.constant = (_instructionImageView.image ? IllustrationHeight : 0);
+}
+
+- (void)refresh {
+    NSMutableAttributedString *attributedInstruction = [[NSMutableAttributedString alloc] init];
+    NSString *detail = _instructionStep.detailText;
+    NSString *text = _instructionStep.textBlock ? _instructionStep.textBlock() : _instructionStep.text;
+    detail = detail.length ? detail : nil;
+    text = text.length ? text : nil;
+    
+    if (detail && text) {
+        [attributedInstruction appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n", text] attributes:nil]];
+        
+        NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
+        [style setParagraphSpacingBefore:self.headerView.instructionLabel.font.lineHeight * 0.5];
+        [style setAlignment:NSTextAlignmentCenter];
+        
+        NSAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:detail
+                                                                               attributes:@{NSParagraphStyleAttributeName: style}];
+        [attributedInstruction appendAttributedString:attString];
+        
+    } else if (detail || text) {
+        [attributedInstruction appendAttributedString:[[NSAttributedString alloc] initWithString:detail ? : text attributes:nil]];
+    }
 }
 
 @end

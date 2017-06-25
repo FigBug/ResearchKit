@@ -87,6 +87,16 @@ ORK_CLASS_AVAILABLE
  */
 @property (nonatomic, copy, nullable) UIImage *iconImage;
 
+/**
+ Optional button text
+ */
+@property (nonatomic, copy, nullable) NSString* buttonText;
+
+/** 
+ Optional callback for text
+ */
+@property (nonatomic, copy, nullable) NSString* (^textBlock)();
+
 @end
 
 NS_ASSUME_NONNULL_END
