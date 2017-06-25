@@ -101,6 +101,7 @@
     
     timerLabel = [[UILabel alloc] init];
     timerLabel.textAlignment = NSTextAlignmentCenter;
+    timerLabel.hidden = YES;
     
     [self.view addSubview:timerLabel];
 }
@@ -109,11 +110,12 @@
     NSTimeInterval elapsed = [[NSDate date] timeIntervalSinceDate: self.presentedDate];
     NSString *text = [NSString localizedStringWithFormat:ORKLocalizedString(@"TRAILMAKING_TIMER", nil), elapsed];
     
+    /*
     if (errors == 1) {
         text = [NSString localizedStringWithFormat:ORKLocalizedString(@"TRAILMAKING_ERROR", nil), text, errors];
     } else if (errors > 1) {
         text = [NSString localizedStringWithFormat:ORKLocalizedString(@"TRAILMAKING_ERROR_PLURAL", nil), text, errors];
-    }
+    }*/
     
     timerLabel.text = text;
 }
@@ -196,6 +198,7 @@
             _trailmakingContentView.linesToDraw = nextIndex - 1;
             if (nextIndex == _trailmakingContentView.tapButtons.count) {
                 [self performSelector:@selector(finish) withObject:nil afterDelay:1.5];
+                timerLabel.hidden = NO;
                 [updateTimer invalidate];
                 updateTimer = nil;
             }
