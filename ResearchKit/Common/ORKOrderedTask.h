@@ -265,7 +265,7 @@ ORK_EXTERN ORKTrailMakingTypeIdentifier const ORKTrailMakingTypeIdentifierB;
                                intendedUseDescription:(nullable NSString *)intendedUseDescription
                                          walkDuration:(NSTimeInterval)walkDuration
                                          restDuration:(NSTimeInterval)restDuration
-                                              options:(ORKPredefinedTaskOption)options HK_AVAILABLE_IOS_ONLY(10_0);
+                                              options:(ORKPredefinedTaskOption)options;
 
 /**
  Returns a predefined task that consists of a fitness check.

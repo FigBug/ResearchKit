@@ -38,7 +38,6 @@ NS_ASSUME_NONNULL_BEGIN
  heart rate capture step.
  */
 ORK_CLASS_AVAILABLE
-HK_CLASS_AVAILABLE_IOS_WATCHOS(10_0, 3_0)
 @interface ORKWorkoutStepViewController : ORKPageStepViewController <WCSessionDelegate>
 
 @end
