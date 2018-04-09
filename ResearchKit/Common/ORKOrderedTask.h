@@ -647,6 +647,7 @@ ORK_EXTERN ORKTrailMakingTypeIdentifier const ORKTrailMakingTypeIdentifierB;
                                     child results if the task is completed.
  @param timeout                     The interval permitted after the stimulus until the test fails,
                                     if the threshold is not reached.
+ @param ratioNoGo                   The percentage (0.0 to 1.0) of No Go trials. Default = `0.5`.
  @param successSoundID              The sound to play after a successful attempt.
  @param timeoutSoundID              The sound to play after an attempt that times out.
  @param failureSoundID              The sound to play after an unsuccessful attempt.
@@ -662,6 +663,7 @@ ORK_EXTERN ORKTrailMakingTypeIdentifier const ORKTrailMakingTypeIdentifierB;
                        thresholdAcceleration:(double)thresholdAcceleration
                             numberOfAttempts:(int)numberOfAttempts
                                      timeout:(NSTimeInterval)timeout
+                                   ratioNoGo:(double)ratioNoGo
                                 successSound:(SystemSoundID)successSoundID
                                 timeoutSound:(SystemSoundID)timeoutSoundID
                                 failureSound:(SystemSoundID)failureSoundID

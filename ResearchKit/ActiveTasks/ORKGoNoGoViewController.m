@@ -88,7 +88,8 @@ static const NSTimeInterval OutcomeAnimationDuration = 0.1;
     // Generate the type of tests we are going to display
     // Always do go first, and make sure there is at least 1 no-go
     tests = [NSMutableArray array];
-    while (tests.count < [self gonogoTimeStep].numberOfAttempts / 2) {
+    int countNoGo = [self gonogoTimeStep].numberOfAttempts * [self gonogoTimeStep].ratioNoGo;
+    while (tests.count < countNoGo) {
         [tests addObject:@NO];
     }
     while (tests.count < [self gonogoTimeStep].numberOfAttempts) {

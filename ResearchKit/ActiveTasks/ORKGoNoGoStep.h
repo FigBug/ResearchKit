@@ -46,6 +46,8 @@ ORK_CLASS_AVAILABLE
 
 @property (nonatomic, assign) NSTimeInterval timeout;
 
+@property (nonatomic, assign) double ratioNoGo;
+
 @property (nonatomic, assign) NSInteger numberOfAttempts;
 
 @property (nonatomic, assign) double thresholdAcceleration;

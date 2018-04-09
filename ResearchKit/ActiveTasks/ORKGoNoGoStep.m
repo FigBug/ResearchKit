@@ -54,6 +54,7 @@
     step.minimumStimulusInterval = self.minimumStimulusInterval;
     step.thresholdAcceleration = self.thresholdAcceleration;
     step.timeout = self.timeout;
+    step.ratioNoGo = self.ratioNoGo;
     step.numberOfAttempts = self.numberOfAttempts;
     step.successSound = self.successSound;
     step.timeoutSound = self.timeoutSound;
@@ -84,6 +85,11 @@
                                        reason:@"timeout must be greater than zero"
                                      userInfo:nil];
     }
+    if (self.ratioNoGo > 1.0) {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException
+                                       reason:@"ratioNoGo must be between 0.0 and 1.0"
+                                     userInfo:nil];
+    }
     if (self.numberOfAttempts <= 0) {
         @throw [NSException exceptionWithName:NSInvalidArgumentException
                                        reason:@"numberOfAttempts must be greater than zero"
@@ -98,6 +104,7 @@
         ORK_DECODE_DOUBLE(aDecoder, minimumStimulusInterval);
         ORK_DECODE_DOUBLE(aDecoder, thresholdAcceleration);
         ORK_DECODE_DOUBLE(aDecoder, timeout);
+        ORK_DECODE_DOUBLE(aDecoder, ratioNoGo);
         ORK_DECODE_UINT32(aDecoder, successSound);
         ORK_DECODE_UINT32(aDecoder, timeoutSound);
         ORK_DECODE_UINT32(aDecoder, failureSound);
@@ -112,6 +119,7 @@
     ORK_ENCODE_DOUBLE(aCoder, minimumStimulusInterval);
     ORK_ENCODE_DOUBLE(aCoder, thresholdAcceleration);
     ORK_ENCODE_DOUBLE(aCoder, timeout);
+    ORK_ENCODE_DOUBLE(aCoder, ratioNoGo);
     ORK_ENCODE_UINT32(aCoder, successSound);
     ORK_ENCODE_UINT32(aCoder, timeoutSound);
     ORK_ENCODE_UINT32(aCoder, failureSound);
@@ -131,6 +139,7 @@
             (self.minimumStimulusInterval == castObject.minimumStimulusInterval) &&
             (self.thresholdAcceleration == castObject.thresholdAcceleration) &&
             (self.timeout == castObject.timeout) &&
+            (self.ratioNoGo == castObject.ratioNoGo) &&
             (self.successSound == castObject.successSound) &&
             (self.timeoutSound == castObject.timeoutSound) &&
             (self.failureSound == castObject.failureSound) &&
@@ -147,7 +156,7 @@
 
 - (NSUInteger)hash {
     return super.hash ^ @(self.maximumStimulusInterval).hash ^
-    @(self.minimumStimulusInterval).hash ^ @(self.timeout).hash ^
+    @(self.minimumStimulusInterval).hash ^ @(self.timeout).hash ^ @(self.ratioNoGo).hash ^
     @(self.numberOfAttempts).hash ^ @(self.thresholdAcceleration).hash ^
     @(self.successSound).hash ^ @(self.timeoutSound).hash ^
     @(self.timeoutSound).hash ^ @(self.failureSound).hash;

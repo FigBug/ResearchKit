@@ -1571,6 +1571,7 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
                        thresholdAcceleration:(double)thresholdAcceleration
                             numberOfAttempts:(int)numberOfAttempts
                                      timeout:(NSTimeInterval)timeout
+                                   ratioNoGo:(double)ratioNoGo
                                 successSound:(SystemSoundID)successSoundID
                                 timeoutSound:(SystemSoundID)timeoutSoundID
                                 failureSound:(SystemSoundID)failureSoundID
@@ -1608,6 +1609,7 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
     step.thresholdAcceleration = thresholdAcceleration;
     step.numberOfAttempts = numberOfAttempts;
     step.timeout = timeout;
+    step.ratioNoGo = ratioNoGo;
     step.successSound = successSoundID;
     step.timeoutSound = timeoutSoundID;
     step.failureSound = failureSoundID;
