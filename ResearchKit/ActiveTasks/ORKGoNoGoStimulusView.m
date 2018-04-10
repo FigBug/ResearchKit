@@ -37,7 +37,7 @@
     CAShapeLayer *_crossLayer;
 }
 
-static const CGFloat RoundGoNoGoViewDiameter = 122;
+static const CGFloat RoundGoNoGoViewDiameter = 400;//122;
 
 - (instancetype)initWithBackgroundColor:(UIColor*)color {
     self = [super init];
@@ -138,18 +138,18 @@ static const CGFloat RoundGoNoGoViewDiameter = 122;
 
 - (CGPathRef)tickPath {
     UIBezierPath *path = [self linePath];
-    [path moveToPoint:(CGPoint){37,65}];
-    [path addLineToPoint:(CGPoint){50,78}];
-    [path addLineToPoint:(CGPoint){87,42}];
+    [path moveToPoint:(CGPoint){0.3*RoundGoNoGoViewDiameter,0.53*RoundGoNoGoViewDiameter}];
+    [path addLineToPoint:(CGPoint){0.41*RoundGoNoGoViewDiameter,0.63*RoundGoNoGoViewDiameter}];
+    [path addLineToPoint:(CGPoint){0.71*RoundGoNoGoViewDiameter,0.34*RoundGoNoGoViewDiameter}];
     return path.CGPath;
 }
 
 - (CGPathRef)crossPath {
     UIBezierPath *path = [self linePath];
-    [path moveToPoint:(CGPoint){45,78}];
-    [path addLineToPoint:(CGPoint){82,42}];
-    [path moveToPoint:(CGPoint){45,42}];
-    [path addLineToPoint:(CGPoint){82,78}];
+    [path moveToPoint:(CGPoint){0.37*RoundGoNoGoViewDiameter,0.64*RoundGoNoGoViewDiameter}];
+    [path addLineToPoint:(CGPoint){0.67*RoundGoNoGoViewDiameter,0.34*RoundGoNoGoViewDiameter}];
+    [path moveToPoint:(CGPoint){0.37*RoundGoNoGoViewDiameter,0.34*RoundGoNoGoViewDiameter}];
+    [path addLineToPoint:(CGPoint){0.67*RoundGoNoGoViewDiameter,0.64*RoundGoNoGoViewDiameter}];
     return path.CGPath;
 }
 
