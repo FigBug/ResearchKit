@@ -68,6 +68,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong, readonly) ORKScaleRangeDescriptionLabel *rightRangeDescriptionLabel;
 
+@property (nonatomic, strong, readonly) ORKScaleRangeDescriptionLabel *middleRangeDescriptionLabel;
+
 @property (nonatomic, strong, readonly) ORKScaleValueLabel *valueLabel;
 
 // Accepts NSNumber for continous scale or discrete scale.

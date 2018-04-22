@@ -177,7 +177,7 @@ const CGFloat IconHeight = 60;
     BOOL hasIconView = _iconImageView.image != nil;
     
     const CGFloat IllustrationToCaptionBaseline = ORKGetMetricForWindow(ORKScreenMetricIllustrationToCaptionBaseline, window);
-    const CGFloat TopToCaptionBaseline = hasIconView ? (IconBottomToCaptionBaseline + IconHeight + TopToIconTop) : (ORKGetMetricForWindow(ORKScreenMetricTopToCaptionBaseline, window) - AssumedStatusBarHeight - AssumedNavBarHeight);
+    const CGFloat TopToCaptionBaseline = hasIconView ? (IconBottomToCaptionBaseline + IconHeight + TopToIconTop) : (30);
     
     const CGFloat CaptionBaselineToInstructionBaseline_WithInstruction = ORKGetMetricForWindow(ORKScreenMetricCaptionBaselineToInstructionBaseline, window);
     const CGFloat CaptionBaselineToInstructionBaseline_NoInstruction = MIN(26, CaptionBaselineToInstructionBaseline_WithInstruction); // Not part of spec

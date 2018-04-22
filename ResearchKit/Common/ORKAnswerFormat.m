@@ -275,6 +275,7 @@ NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattingStyle 
                                                        step:(NSInteger)step
                                                    vertical:(BOOL)vertical
                                     maximumValueDescription:(nullable NSString *)maximumValueDescription
+                                     middleValueDescription:(nullable NSString *)middleValueDescription
                                     minimumValueDescription:(nullable NSString *)minimumValueDescription {
     return [[ORKScaleAnswerFormat alloc] initWithMaximumValue:scaleMaximum
                                                  minimumValue:scaleMinimum
@@ -282,6 +283,7 @@ NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattingStyle 
                                                          step:step
                                                      vertical:vertical
                                       maximumValueDescription:maximumValueDescription
+                                       middleValueDescription:middleValueDescription
                                       minimumValueDescription:minimumValueDescription];
 }
 
@@ -291,6 +293,7 @@ NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattingStyle 
                                                           maximumFractionDigits:(NSInteger)maximumFractionDigits
                                                                        vertical:(BOOL)vertical
                                                         maximumValueDescription:(nullable NSString *)maximumValueDescription
+                                                         middleValueDescription:(nullable NSString *)middleValueDescription
                                                         minimumValueDescription:(nullable NSString *)minimumValueDescription {
     return [[ORKContinuousScaleAnswerFormat alloc] initWithMaximumValue:scaleMaximum
                                                            minimumValue:scaleMinimum
@@ -298,6 +301,7 @@ NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattingStyle 
                                                   maximumFractionDigits:maximumFractionDigits
                                                                vertical:vertical
                                                 maximumValueDescription:maximumValueDescription
+                                                 middleValueDescription:middleValueDescription
                                                 minimumValueDescription:minimumValueDescription];
 }
 
@@ -1595,6 +1599,7 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
                                 step:(NSInteger)step
                             vertical:(BOOL)vertical
              maximumValueDescription:(nullable NSString *)maximumValueDescription
+              middleValueDescription:(nullable NSString *)middleValueDescription
              minimumValueDescription:(nullable NSString *)minimumValueDescription {
     self = [super init];
     if (self) {
@@ -1604,6 +1609,7 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
         _step = step;
         _vertical = vertical;
         _maximumValueDescription = maximumValueDescription;
+        _middleValueDescription = middleValueDescription;
         _minimumValueDescription = minimumValueDescription;
         
         [self validateParameters];
@@ -1622,6 +1628,7 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
                                  step:step
                              vertical:vertical
               maximumValueDescription:nil
+               middleValueDescription:nil
               minimumValueDescription:nil];
 }
 
@@ -1635,6 +1642,7 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
                                  step:step
                              vertical:NO
               maximumValueDescription:nil
+              middleValueDescription:nil
               minimumValueDescription:nil];
 }
 
@@ -1738,6 +1746,7 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
         ORK_DECODE_INTEGER(aDecoder, defaultValue);
         ORK_DECODE_BOOL(aDecoder, vertical);
         ORK_DECODE_OBJ(aDecoder, maximumValueDescription);
+        ORK_DECODE_OBJ(aDecoder, middleValueDescription);
         ORK_DECODE_OBJ(aDecoder, minimumValueDescription);
         ORK_DECODE_IMAGE(aDecoder, maximumImage);
         ORK_DECODE_IMAGE(aDecoder, minimumImage);
@@ -1755,6 +1764,7 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
     ORK_ENCODE_INTEGER(aCoder, defaultValue);
     ORK_ENCODE_BOOL(aCoder, vertical);
     ORK_ENCODE_OBJ(aCoder, maximumValueDescription);
+    ORK_ENCODE_OBJ(aCoder, middleValueDescription);
     ORK_ENCODE_OBJ(aCoder, minimumValueDescription);
     ORK_ENCODE_IMAGE(aCoder, maximumImage);
     ORK_ENCODE_IMAGE(aCoder, minimumImage);
@@ -1776,6 +1786,7 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
             (_step == castObject.step) &&
             (_defaultValue == castObject.defaultValue) &&
             ORKEqualObjects(self.maximumValueDescription, castObject.maximumValueDescription) &&
+            ORKEqualObjects(self.middleValueDescription, castObject.middleValueDescription) &&
             ORKEqualObjects(self.minimumValueDescription, castObject.minimumValueDescription) &&
             ORKEqualObjects(self.maximumImage, castObject.maximumImage) &&
             ORKEqualObjects(self.minimumImage, castObject.minimumImage) &&
@@ -1818,6 +1829,7 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
                maximumFractionDigits:(NSInteger)maximumFractionDigits
                             vertical:(BOOL)vertical
              maximumValueDescription:(nullable NSString *)maximumValueDescription
+              middleValueDescription:(nullable NSString *)middleValueDescription
              minimumValueDescription:(nullable NSString *)minimumValueDescription {
     self = [super init];
     if (self) {
@@ -1827,6 +1839,7 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
         _maximumFractionDigits = maximumFractionDigits;
         _vertical = vertical;
         _maximumValueDescription = maximumValueDescription;
+        _middleValueDescription = middleValueDescription;
         _minimumValueDescription = minimumValueDescription;
         
         [self validateParameters];
@@ -1845,6 +1858,7 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
                 maximumFractionDigits:maximumFractionDigits
                              vertical:vertical
               maximumValueDescription:nil
+               middleValueDescription:nil
               minimumValueDescription:nil];
 }
 
@@ -1858,6 +1872,7 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
                 maximumFractionDigits:maximumFractionDigits
                              vertical:NO
               maximumValueDescription:nil
+               middleValueDescription:nil
               minimumValueDescription:nil];
 }
 
@@ -1939,6 +1954,7 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
         ORK_DECODE_BOOL(aDecoder, vertical);
         ORK_DECODE_ENUM(aDecoder, numberStyle);
         ORK_DECODE_OBJ(aDecoder, maximumValueDescription);
+        ORK_DECODE_OBJ(aDecoder, middleValueDescription);
         ORK_DECODE_OBJ(aDecoder, minimumValueDescription);
         ORK_DECODE_IMAGE(aDecoder, maximumImage);
         ORK_DECODE_IMAGE(aDecoder, minimumImage);
@@ -1957,6 +1973,7 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
     ORK_ENCODE_BOOL(aCoder, vertical);
     ORK_ENCODE_ENUM(aCoder, numberStyle);
     ORK_ENCODE_OBJ(aCoder, maximumValueDescription);
+    ORK_ENCODE_OBJ(aCoder, middleValueDescription);
     ORK_ENCODE_OBJ(aCoder, minimumValueDescription);
     ORK_ENCODE_IMAGE(aCoder, maximumImage);
     ORK_ENCODE_IMAGE(aCoder, minimumImage);
@@ -1979,6 +1996,7 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
             (_maximumFractionDigits == castObject.maximumFractionDigits) &&
             (_numberStyle == castObject.numberStyle) &&
             ORKEqualObjects(self.maximumValueDescription, castObject.maximumValueDescription) &&
+            ORKEqualObjects(self.middleValueDescription, castObject.middleValueDescription) &&
             ORKEqualObjects(self.minimumValueDescription, castObject.minimumValueDescription) &&
             ORKEqualObjects(self.maximumImage, castObject.maximumImage) &&
             ORKEqualObjects(self.minimumImage, castObject.minimumImage) &&
@@ -2080,6 +2098,9 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
 }
 - (NSString *)maximumValueDescription {
     return _textChoices.lastObject.text;
+}
+- (NSString *)middleValueDescription {
+    return [_textChoices objectAtIndex:1].text;
 }
 - (UIImage *)minimumImage {
     return nil;

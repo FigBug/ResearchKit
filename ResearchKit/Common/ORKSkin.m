@@ -244,7 +244,7 @@ CGFloat ORKGetMetricForWindow(ORKScreenMetric metric, UIWindow *window) {
 
 const CGFloat ORKLayoutMarginWidthRegularBezel = 15.0;
 const CGFloat ORKLayoutMarginWidthThinBezelRegular = 20.0;
-const CGFloat ORKLayoutMarginWidthiPad = 115.0;
+const CGFloat ORKLayoutMarginWidthiPad = 20.0; //padding on left and right of window
 
 CGFloat ORKStandardLeftTableViewCellMarginForWindow(UIWindow *window) {
     CGFloat margin = 0;

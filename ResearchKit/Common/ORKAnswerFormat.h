@@ -100,6 +100,7 @@ ORK_CLASS_AVAILABLE
                                                        step:(NSInteger)step
                                                    vertical:(BOOL)vertical
                                     maximumValueDescription:(nullable NSString *)maximumValueDescription
+                                     middleValueDescription:(nullable NSString *)middleValueDescription
                                     minimumValueDescription:(nullable NSString *)minimumValueDescription;
 
 + (ORKContinuousScaleAnswerFormat *)continuousScaleAnswerFormatWithMaximumValue:(double)scaleMaximum
@@ -108,6 +109,7 @@ ORK_CLASS_AVAILABLE
                                                           maximumFractionDigits:(NSInteger)maximumFractionDigits
                                                                        vertical:(BOOL)vertical
                                                         maximumValueDescription:(nullable NSString *)maximumValueDescription
+                                                         middleValueDescription:(nullable NSString *)middleValueDescription
                                                         minimumValueDescription:(nullable NSString *)minimumValueDescription;
 
 + (ORKTextScaleAnswerFormat *)textScaleAnswerFormatWithTextChoices:(NSArray <ORKTextChoice *> *)textChoices
@@ -237,6 +239,7 @@ ORK_CLASS_AVAILABLE
                                 step:(NSInteger)step
                             vertical:(BOOL)vertical
              maximumValueDescription:(nullable NSString *)maximumValueDescription
+              middleValueDescription:(nullable NSString *)middleValueDescription
              minimumValueDescription:(nullable NSString *)minimumValueDescription NS_DESIGNATED_INITIALIZER;
 
 
@@ -323,6 +326,11 @@ ORK_CLASS_AVAILABLE
 @property (readonly, nullable) NSString *maximumValueDescription;
 
 /**
+ A localized label to describe the maximum value of the scale. (read-only)
+ */
+@property (readonly, nullable) NSString *middleValueDescription;
+
+/**
  A localized label to describe the minimum value of the scale. (read-only)
  */
 @property (readonly, nullable) NSString *minimumValueDescription;
@@ -400,6 +408,7 @@ ORK_CLASS_AVAILABLE
                maximumFractionDigits:(NSInteger)maximumFractionDigits
                             vertical:(BOOL)vertical
              maximumValueDescription:(nullable NSString *)maximumValueDescription
+              middleValueDescription:(nullable NSString *)middleValueDescription
              minimumValueDescription:(nullable NSString *)minimumValueDescription NS_DESIGNATED_INITIALIZER;
 
 /**
@@ -482,6 +491,11 @@ ORK_CLASS_AVAILABLE
  A localized label to describe the maximum value of the scale. (read-only)
  */
 @property (readonly, nullable) NSString *maximumValueDescription;
+
+/**
+ A localized label to describe the maximum value of the scale. (read-only)
+ */
+@property (readonly, nullable) NSString *middleValueDescription;
 
 /**
  A localized label to describe the minimum value of the scale. (read-only)
