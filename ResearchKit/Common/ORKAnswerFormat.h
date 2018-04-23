@@ -1249,7 +1249,7 @@ ORK_CLASS_AVAILABLE
 /**
  The style of date entry.
  */
-@property (readonly) ORKDateAnswerStyle style;
+@property ORKDateAnswerStyle style;
 
 /**
  The date to use as the default.
