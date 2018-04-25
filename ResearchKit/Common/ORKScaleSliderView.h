@@ -56,10 +56,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong, readonly) id<ORKScaleAnswerFormatProvider> formatProvider;
 
-@property (nonatomic, strong, readonly) ORKScaleRangeLabel *leftRangeLabel;
-
-@property (nonatomic, strong, readonly) ORKScaleRangeLabel *rightRangeLabel;
-
 @property (nonatomic, strong, readonly) ORKScaleRangeImageView *leftRangeImageView;
 
 @property (nonatomic, strong, readonly) ORKScaleRangeImageView *rightRangeImageView;
