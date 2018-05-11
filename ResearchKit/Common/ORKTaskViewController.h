@@ -71,6 +71,19 @@ typedef NS_ENUM(NSInteger, ORKTaskViewControllerFinishReason) {
 @protocol ORKTaskViewControllerDelegate <NSObject>
 
 /**
+ Tells the delegate that the next step is being selected.
+ 
+ The task view controller calls this method when the next step needs to be choosen, and the delegate has the option to change which task will be selected.
+ 
+ @param taskViewController  The `ORKTaskViewController `instance that is returning the result.
+ @param currentStep         The step that was just shown.
+ @param nextStep            The step that will be shown next if nothing is changed.
+ 
+ @return the next step that should be displayed. you can return "nextStep" if you don't want a change.
+ */
+- (ORKStep *)taskViewController:(ORKTaskViewController *)taskViewController currentStep:(ORKStep *)currentStep nextStep:(ORKStep *)nextStep;
+
+/**
  Tells the delegate that the task has finished.
  
  The task view controller calls this method when an unrecoverable error occurs,

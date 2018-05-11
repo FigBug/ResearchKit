@@ -1003,6 +1003,11 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
         step = [self.task stepAfterStep:self.currentStepViewController.step withResult:[self result]];
     }
     
+    ORKStrongTypeOf(self.delegate) strongDelegate = self.delegate;
+    if ([strongDelegate respondsToSelector:@selector(taskViewController:currentStep:nextStep:)]) {
+        step = [strongDelegate taskViewController:self currentStep:self.currentStepViewController.step nextStep:step];
+    }
+    
     return step;
     
 }
