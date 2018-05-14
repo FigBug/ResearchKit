@@ -51,8 +51,10 @@
     NSMutableArray *_results;
     NSMutableArray *_samples;
     NSTimer *_stimulusTimer;
+    NSDate *_stimulusTimerStartTime;
     NSTimer *_timeoutTimer;
     NSTimeInterval _stimulusTimestamp;
+    BOOL _recordedResult;
     BOOL _validResult;
     BOOL _timedOut;
     BOOL _shouldIndicateFailure;
@@ -156,6 +158,7 @@ static const NSTimeInterval OutcomeAnimationDuration = 0.1;
 - (void)start {
     [_samples removeAllObjects];
     [super start];
+    _recordedResult = NO;
     [self startStimulusTimer];
 }
 
@@ -260,12 +263,21 @@ static const NSTimeInterval OutcomeAnimationDuration = 0.1;
         }
     };
     
-    if ((go && _validResult) || (!go && _timedOut)) {
-        [self indicateResultIncorrect: NO completion:completion];
-    } else {
-        [self indicateResultIncorrect: YES completion:completion];
+    //if the minimum inverval has not been reached, ignore this click
+    ORKGoNoGoStep *step = [self gonogoTimeStep];
+    NSTimeInterval elapsedTime = [[NSDate date] timeIntervalSinceDate:_stimulusTimerStartTime];
+    if(elapsedTime < step.minimumStimulusInterval)
+        return;
+    
+    if(!_recordedResult) {
+        if ((go && _validResult) || (!go && _timedOut)) {
+            [self indicateResultIncorrect: NO completion:completion];
+        } else {
+            [self indicateResultIncorrect: YES completion:completion];
+        }
     }
     
+    _recordedResult = YES;
     _validResult = NO;
     _timedOut = NO;
     [_stimulusTimer invalidate];
@@ -343,6 +355,8 @@ static const NSTimeInterval OutcomeAnimationDuration = 0.1;
     if (_stimulusTimer != nil) {
         [_stimulusTimer invalidate];
     }
+    
+    _stimulusTimerStartTime = [NSDate date];
     _stimulusTimer = [NSTimer scheduledTimerWithTimeInterval:[self stimulusInterval] target:self selector:@selector(stimulusTimerDidFire) userInfo:nil repeats:NO];
 }
 
