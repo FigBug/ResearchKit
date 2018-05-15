@@ -111,7 +111,7 @@ static const NSTimeInterval OutcomeAnimationDuration = 0.1;
     
     go = [self getNextTestType];
     
-    _gonogoContentView = [[ORKGoNoGoContentView alloc] initWithColor:go ? self.view.tintColor : UIColor.greenColor];
+    _gonogoContentView = [[ORKGoNoGoContentView alloc] initWithColor:go ? UIColor.greenColor : self.view.tintColor];
     [_gonogoContentView setStimulusHidden:YES];
     
     self.activeStepView.activeCustomView = _gonogoContentView;
@@ -344,7 +344,7 @@ static const NSTimeInterval OutcomeAnimationDuration = 0.1;
     
     go = [self getNextTestType];
     
-    _gonogoContentView.stimulusColor = go ? self.view.tintColor : UIColor.greenColor;
+    _gonogoContentView.stimulusColor = go ? UIColor.greenColor : self.view.tintColor;
     [_gonogoContentView resetAfterDelay:delay completion:^{
         [weakSelf configureTitle];
         [weakSelf start];
