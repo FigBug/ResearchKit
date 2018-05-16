@@ -92,6 +92,30 @@ static const CGFloat RoundGoNoGoViewDiameter = 400;//122;
     [CATransaction commit];
 }
 
+- (void)startLateSuccessAnimationWithDuration:(NSTimeInterval)duration completion:(void(^)(void))completion {
+    if (self.hidden) {
+        if (completion) {
+            completion();
+        }
+        return;
+    }
+    
+    self.layer.backgroundColor = [UIColor clearColor].CGColor;
+    [self addRedTickLayer];
+    [CATransaction begin];
+    [CATransaction setCompletionBlock:completion];
+    CAMediaTimingFunction *timing = [[CAMediaTimingFunction alloc] initWithControlPoints:0.180739998817444 :0 :0.577960014343262 :0.918200016021729];
+    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
+    [animation setTimingFunction:timing];
+    animation.removedOnCompletion = NO;
+    [animation setFillMode:kCAFillModeForwards];
+    animation.fromValue = @(0);
+    animation.toValue = @(1);
+    animation.duration = duration;
+    [_tickLayer addAnimation:animation forKey:@"strokeEnd"];
+    [CATransaction commit];
+}
+
 - (void)startFailureAnimationWithDuration:(NSTimeInterval)duration completion:(void(^)(void))completion {
     self.hidden = NO;
     
@@ -124,6 +148,13 @@ static const CGFloat RoundGoNoGoViewDiameter = 400;//122;
 - (void)addTickLayer {
     _tickLayer = [self lineDrawingLayer];
     _tickLayer.strokeColor = [UIColor whiteColor].CGColor;
+    _tickLayer.path = [self tickPath];
+    [self.layer addSublayer:_tickLayer];
+}
+
+- (void)addRedTickLayer {
+    _tickLayer = [self lineDrawingLayer];
+    _tickLayer.strokeColor = [UIColor redColor].CGColor;
     _tickLayer.path = [self tickPath];
     [self.layer addSublayer:_tickLayer];
 }

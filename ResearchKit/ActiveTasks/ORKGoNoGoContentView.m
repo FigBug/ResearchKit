@@ -67,6 +67,10 @@
     [_stimulusView startSuccessAnimationWithDuration:duration completion:completion];
 }
 
+- (void)startLateSuccessAnimationWithDuration:(NSTimeInterval)duration completion:(void (^)(void))completion {
+    [_stimulusView startLateSuccessAnimationWithDuration:duration completion:completion];
+}
+
 - (void)startFailureAnimationWithDuration:(NSTimeInterval)duration completion:(void (^)(void))completion {
     [_stimulusView startFailureAnimationWithDuration:duration completion:completion];
 }

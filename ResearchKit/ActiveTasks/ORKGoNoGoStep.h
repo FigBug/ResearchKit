@@ -40,11 +40,15 @@ NS_ASSUME_NONNULL_BEGIN
 ORK_CLASS_AVAILABLE
 @interface ORKGoNoGoStep : ORKActiveStep
 
+@property (nonatomic, assign) NSTimeInterval noResponseStimulusInterval;
+
 @property (nonatomic, assign) NSTimeInterval maximumStimulusInterval;
 
 @property (nonatomic, assign) NSTimeInterval minimumStimulusInterval;
 
 @property (nonatomic, assign) NSTimeInterval timeout;
+
+@property (nonatomic, assign) NSTimeInterval intermediateTimeout;
 
 @property (nonatomic, assign) double ratioNoGo;
 

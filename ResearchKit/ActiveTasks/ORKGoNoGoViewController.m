@@ -263,10 +263,10 @@ static const NSTimeInterval OutcomeAnimationDuration = 0.1;
         }
     };
     
-    //if the minimum inverval has not been reached, ignore this click
+    //if the noResponseStimulusInterval has not been reached, ignore this click
     ORKGoNoGoStep *step = [self gonogoTimeStep];
     NSTimeInterval elapsedTime = [[NSDate date] timeIntervalSinceDate:_stimulusTimerStartTime];
-    if(elapsedTime < step.minimumStimulusInterval)
+    if(elapsedTime < step.noResponseStimulusInterval)
         return;
     
     if(!_recordedResult) {
@@ -309,7 +309,9 @@ static const NSTimeInterval OutcomeAnimationDuration = 0.1;
         }
     }
     
-    NSString *uniqueStep = [NSString stringWithFormat:@"%@.%@", self.step.identifier, [[NSUUID UUID] UUIDString]];
+    ORKGoNoGoStep *step = [self gonogoTimeStep];
+    
+    NSString *uniqueStep = [NSString stringWithFormat:@"%@.%@", step.identifier, [[NSUUID UUID] UUIDString]];
     ORKGoNoGoResult *gonogoResult = [[ORKGoNoGoResult alloc] initWithIdentifier:uniqueStep];
     gonogoResult.timestamp = _stimulusTimestamp;
     gonogoResult.samples = [samples copy];
@@ -323,6 +325,9 @@ static const NSTimeInterval OutcomeAnimationDuration = 0.1;
         SystemSoundID sound = _timedOut ? [self gonogoTimeStep].timeoutSound : [self gonogoTimeStep].failureSound;
         AudioServicesPlayAlertSound(sound);
         [_gonogoContentView startFailureAnimationWithDuration:OutcomeAnimationDuration completion:completion];
+    } else if (go && gonogoResult.timeToThreshold > step.intermediateTimeout) {
+        AudioServicesPlaySystemSound([self gonogoTimeStep].successSound);
+        [_gonogoContentView startLateSuccessAnimationWithDuration:OutcomeAnimationDuration completion:completion];
     } else {
         AudioServicesPlaySystemSound([self gonogoTimeStep].successSound);
         [_gonogoContentView startSuccessAnimationWithDuration:OutcomeAnimationDuration completion:completion];
@@ -390,7 +395,7 @@ static const NSTimeInterval OutcomeAnimationDuration = 0.1;
     ORKGoNoGoStep *step = [self gonogoTimeStep];
     NSTimeInterval range = step.maximumStimulusInterval - step.minimumStimulusInterval;
     NSTimeInterval randomFactor = ((NSTimeInterval)rand() / RAND_MAX) * range;
-    return randomFactor + step.minimumStimulusInterval;
+    return randomFactor + step.minimumStimulusInterval + step.noResponseStimulusInterval;
 }
 
 @end

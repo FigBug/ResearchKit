@@ -50,10 +50,12 @@
 
 - (instancetype)copyWithZone:(NSZone *)zone {
     ORKGoNoGoStep *step = [super copyWithZone:zone];
+    step.noResponseStimulusInterval = self.noResponseStimulusInterval;
     step.maximumStimulusInterval = self.maximumStimulusInterval;
     step.minimumStimulusInterval = self.minimumStimulusInterval;
     step.thresholdAcceleration = self.thresholdAcceleration;
     step.timeout = self.timeout;
+    step.intermediateTimeout = self.intermediateTimeout;
     step.ratioNoGo = self.ratioNoGo;
     step.numberOfAttempts = self.numberOfAttempts;
     step.successSound = self.successSound;
@@ -65,9 +67,19 @@
 - (void)validateParameters {
     [super validateParameters];
     
-    if (self.minimumStimulusInterval <= 0) {
+    if (self.noResponseStimulusInterval < 0) {
         @throw [NSException exceptionWithName:NSInvalidArgumentException
-                                       reason:@"minimumStimulusInterval must be greater than zero"
+                                       reason:@"noResponseStimulusInterval must be greater than or equal to zero"
+                                     userInfo:nil];
+    }
+    if (self.minimumStimulusInterval < 0) {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException
+                                       reason:@"minimumStimulusInterval must be greater than or equal to zero"
+                                     userInfo:nil];
+    }
+    if (self.minimumStimulusInterval + self.noResponseStimulusInterval <= 0) {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException
+                                       reason:@"(noResponseStimulusInterval + minimumStimulusInterval) must be greater than zero"
                                      userInfo:nil];
     }
     if (self.maximumStimulusInterval < self.minimumStimulusInterval) {
@@ -85,6 +97,11 @@
                                        reason:@"timeout must be greater than zero"
                                      userInfo:nil];
     }
+    if (self.intermediateTimeout > self.timeout) {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException
+                                       reason:@"intermediateTimeout must be less than or equal to timeout"
+                                     userInfo:nil];
+    }
     if (self.ratioNoGo > 1.0) {
         @throw [NSException exceptionWithName:NSInvalidArgumentException
                                        reason:@"ratioNoGo must be between 0.0 and 1.0"
@@ -100,10 +117,12 @@
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
+        ORK_DECODE_DOUBLE(aDecoder, noResponseStimulusInterval);
         ORK_DECODE_DOUBLE(aDecoder, maximumStimulusInterval);
         ORK_DECODE_DOUBLE(aDecoder, minimumStimulusInterval);
         ORK_DECODE_DOUBLE(aDecoder, thresholdAcceleration);
         ORK_DECODE_DOUBLE(aDecoder, timeout);
+        ORK_DECODE_DOUBLE(aDecoder, intermediateTimeout);
         ORK_DECODE_DOUBLE(aDecoder, ratioNoGo);
         ORK_DECODE_UINT32(aDecoder, successSound);
         ORK_DECODE_UINT32(aDecoder, timeoutSound);
@@ -115,10 +134,12 @@
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [super encodeWithCoder:aCoder];
+    ORK_ENCODE_DOUBLE(aCoder, noResponseStimulusInterval);
     ORK_ENCODE_DOUBLE(aCoder, maximumStimulusInterval);
     ORK_ENCODE_DOUBLE(aCoder, minimumStimulusInterval);
     ORK_ENCODE_DOUBLE(aCoder, thresholdAcceleration);
     ORK_ENCODE_DOUBLE(aCoder, timeout);
+    ORK_ENCODE_DOUBLE(aCoder, intermediateTimeout);
     ORK_ENCODE_DOUBLE(aCoder, ratioNoGo);
     ORK_ENCODE_UINT32(aCoder, successSound);
     ORK_ENCODE_UINT32(aCoder, timeoutSound);
@@ -135,10 +156,12 @@
     
     __typeof(self) castObject = object;
     return (isParentSame &&
+            (self.noResponseStimulusInterval == castObject.noResponseStimulusInterval) &&
             (self.maximumStimulusInterval == castObject.maximumStimulusInterval) &&
             (self.minimumStimulusInterval == castObject.minimumStimulusInterval) &&
             (self.thresholdAcceleration == castObject.thresholdAcceleration) &&
             (self.timeout == castObject.timeout) &&
+            (self.intermediateTimeout == castObject.intermediateTimeout) &&
             (self.ratioNoGo == castObject.ratioNoGo) &&
             (self.successSound == castObject.successSound) &&
             (self.timeoutSound == castObject.timeoutSound) &&
@@ -155,8 +178,8 @@
 }
 
 - (NSUInteger)hash {
-    return super.hash ^ @(self.maximumStimulusInterval).hash ^
-    @(self.minimumStimulusInterval).hash ^ @(self.timeout).hash ^ @(self.ratioNoGo).hash ^
+    return super.hash ^ @(self.noResponseStimulusInterval).hash ^ @(self.maximumStimulusInterval).hash ^
+    @(self.minimumStimulusInterval).hash ^ @(self.timeout).hash ^ @(self.intermediateTimeout).hash ^ @(self.ratioNoGo).hash ^
     @(self.numberOfAttempts).hash ^ @(self.thresholdAcceleration).hash ^
     @(self.successSound).hash ^ @(self.timeoutSound).hash ^
     @(self.timeoutSound).hash ^ @(self.failureSound).hash;

@@ -1566,11 +1566,13 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
 
 + (ORKOrderedTask *)gonogoTaskWithIdentifier:(NSString *)identifier
                       intendedUseDescription:(nullable NSString *)intendedUseDescription
+                          noResponseStimulusInterval:(NSTimeInterval)noResponseStimulusInterval
                      maximumStimulusInterval:(NSTimeInterval)maximumStimulusInterval
                      minimumStimulusInterval:(NSTimeInterval)minimumStimulusInterval
                        thresholdAcceleration:(double)thresholdAcceleration
                             numberOfAttempts:(int)numberOfAttempts
                                      timeout:(NSTimeInterval)timeout
+                         intermediateTimeout:(NSTimeInterval)intermediateTimeout
                                    ratioNoGo:(double)ratioNoGo
                                 successSound:(SystemSoundID)successSoundID
                                 timeoutSound:(SystemSoundID)timeoutSoundID
@@ -1604,11 +1606,13 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
     }
     
     ORKGoNoGoStep *step = [[ORKGoNoGoStep alloc] initWithIdentifier:ORKGoNoGoStepIdentifier];
+    step.noResponseStimulusInterval = noResponseStimulusInterval;
     step.maximumStimulusInterval = maximumStimulusInterval;
     step.minimumStimulusInterval = minimumStimulusInterval;
     step.thresholdAcceleration = thresholdAcceleration;
     step.numberOfAttempts = numberOfAttempts;
     step.timeout = timeout;
+    step.intermediateTimeout = intermediateTimeout;
     step.ratioNoGo = ratioNoGo;
     step.successSound = successSoundID;
     step.timeoutSound = timeoutSoundID;

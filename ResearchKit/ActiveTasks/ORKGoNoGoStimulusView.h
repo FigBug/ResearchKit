@@ -43,6 +43,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)startSuccessAnimationWithDuration:(NSTimeInterval)duration completion:(nullable void(^)(void))completion;
 
+- (void)startLateSuccessAnimationWithDuration:(NSTimeInterval)duration completion:(nullable void(^)(void))completion;
+
 - (void)startFailureAnimationWithDuration:(NSTimeInterval)duration completion:(nullable void(^)(void))completion;
 
 @end

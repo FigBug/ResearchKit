@@ -639,6 +639,7 @@ ORK_EXTERN ORKTrailMakingTypeIdentifier const ORKTrailMakingTypeIdentifierB;
  @param intendedUseDescription      A localized string describing the intended use of the data
                                     collected. If the value of this parameter is `nil`, the
                                     default localized text is displayed.
+ @param noResponseStimulusInterval          An interval before the minimum interval where no taps will be registered.
  @param maximumStimulusInterval     The maximum interval before the stimulus is delivered.
  @param minimumStimulusInterval     The minimum interval before the stimulus is delivered.
  @param thresholdAcceleration       The acceleration required to end a reaction time test. Default = `0.5`.
@@ -647,6 +648,7 @@ ORK_EXTERN ORKTrailMakingTypeIdentifier const ORKTrailMakingTypeIdentifierB;
                                     child results if the task is completed.
  @param timeout                     The interval permitted after the stimulus until the test fails,
                                     if the threshold is not reached.
+ @param intermediateTimeout         If the tap is registered after this interval, while still a success, a red check mark will be shown.
  @param ratioNoGo                   The percentage (0.0 to 1.0) of No Go trials. Default = `0.5`.
  @param successSoundID              The sound to play after a successful attempt.
  @param timeoutSoundID              The sound to play after an attempt that times out.
@@ -658,11 +660,13 @@ ORK_EXTERN ORKTrailMakingTypeIdentifier const ORKTrailMakingTypeIdentifierB;
 
 + (ORKOrderedTask *)gonogoTaskWithIdentifier:(NSString *)identifier
                       intendedUseDescription:(nullable NSString *)intendedUseDescription
+                          noResponseStimulusInterval:(NSTimeInterval)noResponseStimulusInterval
                      maximumStimulusInterval:(NSTimeInterval)maximumStimulusInterval
                      minimumStimulusInterval:(NSTimeInterval)minimumStimulusInterval
                        thresholdAcceleration:(double)thresholdAcceleration
                             numberOfAttempts:(int)numberOfAttempts
                                      timeout:(NSTimeInterval)timeout
+                         intermediateTimeout:(NSTimeInterval)intermediateTimeout
                                    ratioNoGo:(double)ratioNoGo
                                 successSound:(SystemSoundID)successSoundID
                                 timeoutSound:(SystemSoundID)timeoutSoundID
