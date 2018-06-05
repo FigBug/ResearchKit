@@ -47,7 +47,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         {
-            _skipButton = [ORKTextButton new];
+            _skipButton = [ORKBorderedButton new];
             _skipButton.contentEdgeInsets = (UIEdgeInsets){12,10,8,10}; // insets adjusted to get correct vertical height from bottom of screen when aligned to margin
             _skipButton.exclusiveTouch = YES;
             [_skipButton setTitle:nil forState:UIControlStateNormal];
@@ -269,16 +269,18 @@
                                              metrics:nil
                                                views:views]];
     
+    //skip button beside continue button
     _skipToContinueButtonConstraint = [NSLayoutConstraint constraintWithItem:_skipButton
-                                                                   attribute:NSLayoutAttributeFirstBaseline
+                                                                   attribute:NSLayoutAttributeLeading
                                                                    relatedBy:NSLayoutRelationEqual
                                                                       toItem:_continueButton
-                                                                   attribute:NSLayoutAttributeBottom
+                                                                   attribute:NSLayoutAttributeTrailing
                                                                   multiplier:1.0
                                                                     constant:30.0];
     _skipToContinueButtonConstraint.priority = UILayoutPriorityDefaultHigh + 1;
     [constraints addObject:_skipToContinueButtonConstraint];
     
+    //footnote under continue button
     _footnoteToContinueButtonConstraint = [NSLayoutConstraint constraintWithItem:_footnoteLabel
                                                                    attribute:NSLayoutAttributeFirstBaseline
                                                                    relatedBy:NSLayoutRelationEqual
@@ -289,6 +291,7 @@
     _footnoteToContinueButtonConstraint.priority = UILayoutPriorityDefaultHigh + 1;
     [constraints addObject:_footnoteToContinueButtonConstraint];
     
+    //footnote under skip button
     _footnoteToSkipButtonConstraint = [NSLayoutConstraint constraintWithItem:_footnoteLabel
                                                                        attribute:NSLayoutAttributeFirstBaseline
                                                                        relatedBy:NSLayoutRelationEqual
@@ -299,7 +302,8 @@
     _footnoteToSkipButtonConstraint.priority = UILayoutPriorityDefaultHigh + 1;
     [constraints addObject:_footnoteToSkipButtonConstraint];
     
-    for (UIView *view in views.allValues) {
+    //center items
+    for (UIView *view in [NSArray arrayWithObjects: _continueButton, _footnoteLabel, nil]) {
         [constraints addObject:[NSLayoutConstraint constraintWithItem:view
                                                             attribute:NSLayoutAttributeCenterX
                                                             relatedBy:NSLayoutRelationEqual
@@ -321,6 +325,28 @@
         view.layer.borderColor = [UIColor cyanColor].CGColor;
         view.layer.borderWidth = 1.0;
 #endif
+    }
+    
+    {
+        NSLayoutConstraint *topButtonConstraint = [NSLayoutConstraint constraintWithItem:_skipButton
+                                                                               attribute:NSLayoutAttributeTop
+                                                                               relatedBy:NSLayoutRelationEqual
+                                                                                  toItem:_continueButton
+                                                                               attribute:NSLayoutAttributeTop
+                                                                              multiplier:1.0
+                                                                                constant:0.0];
+        topButtonConstraint.priority = UILayoutPriorityDefaultHigh + 1;
+        [constraints addObject:topButtonConstraint];
+        
+        NSLayoutConstraint *heightButtonConstraint = [NSLayoutConstraint constraintWithItem:_skipButton
+                                                                               attribute:NSLayoutAttributeHeight
+                                                                               relatedBy:NSLayoutRelationEqual
+                                                                                  toItem:_continueButton
+                                                                               attribute:NSLayoutAttributeHeight
+                                                                              multiplier:1.0
+                                                                                constant:0.0];
+        heightButtonConstraint.priority = UILayoutPriorityDefaultHigh + 1;
+        [constraints addObject:heightButtonConstraint];
     }
     
     {
