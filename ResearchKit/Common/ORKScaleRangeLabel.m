@@ -39,4 +39,18 @@
     return [UIFont systemFontOfSize:[[descriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]];
 }
 
+- (void)setBounds:(CGRect)bounds {
+    if (bounds.size.width != self.bounds.size.width) {
+        [self setNeedsUpdateConstraints];
+    }
+    [super setBounds:bounds];
+}
+
+- (void)updateConstraints {
+    if (self.preferredMaxLayoutWidth != self.bounds.size.width) {
+        self.preferredMaxLayoutWidth = self.bounds.size.width;
+    }
+    [super updateConstraints];
+}
+
 @end

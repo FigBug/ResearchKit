@@ -130,15 +130,18 @@
             }
             
             _leftRangeDescriptionLabel = [[ORKScaleRangeDescriptionLabel alloc] initWithFrame:CGRectZero];
-            _leftRangeDescriptionLabel.numberOfLines = -1;
+            _leftRangeDescriptionLabel.lineBreakMode = NSLineBreakByWordWrapping;
+            _leftRangeDescriptionLabel.numberOfLines = 0;
             [self addSubview:_leftRangeDescriptionLabel];
             
             _rightRangeDescriptionLabel = [[ORKScaleRangeDescriptionLabel alloc] initWithFrame:CGRectZero];
-            _rightRangeDescriptionLabel.numberOfLines = -1;
+            _rightRangeDescriptionLabel.lineBreakMode = NSLineBreakByWordWrapping;
+            _rightRangeDescriptionLabel.numberOfLines = 0;
             [self addSubview:_rightRangeDescriptionLabel];
             
             _middleRangeDescriptionLabel = [[ORKScaleRangeDescriptionLabel alloc] initWithFrame:CGRectZero];
-            _middleRangeDescriptionLabel.numberOfLines = -1;
+            _middleRangeDescriptionLabel.lineBreakMode = NSLineBreakByWordWrapping;
+            _middleRangeDescriptionLabel.numberOfLines = 0;
             [self addSubview:_middleRangeDescriptionLabel];
             
             if (textChoices) {
@@ -312,20 +315,14 @@
                                                                 attribute:NSLayoutAttributeCenterX
                                                                 relatedBy:NSLayoutRelationEqual
                                                                    toItem:self
-                                                                attribute:NSLayoutAttributeCenterX
-                                                               multiplier:0.5
+                                                                attribute:NSLayoutAttributeRight
+                                                               multiplier:0.15
                                                                  constant:0.0]];
             
             [constraints addObjectsFromArray:
              [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_valueLabel]-(>=kValueLabelSliderMargin)-[_slider]-(>=kSliderMargin)-|"
                                                      options:NSLayoutFormatAlignAllCenterX | NSLayoutFormatDirectionLeadingToTrailing
                                                      metrics:@{@"kValueLabelSliderMargin": @(ValueLabelSliderMargin), @"kSliderMargin": @(SliderMargin)}
-                                                       views:views]];
-            
-            [constraints addObjectsFromArray:
-             [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_valueLabel]-(>=8)-[_rightRangeDescriptionLabel]"
-                                                     options:NSLayoutFormatDirectionLeadingToTrailing
-                                                     metrics:nil
                                                        views:views]];
             
             [constraints addObjectsFromArray
@@ -353,7 +350,7 @@
             
             // Align the rangeViews with the slider's bottom
             [constraints addObject:[NSLayoutConstraint constraintWithItem:[_RangeLabels lastObject]
-                                                                attribute:NSLayoutAttributeCenterY
+                                                                attribute:NSLayoutAttributeTop
                                                                 relatedBy:NSLayoutRelationEqual
                                                                    toItem:_slider
                                                                 attribute:NSLayoutAttributeTop
@@ -361,7 +358,7 @@
                                                                  constant:0.0]];
             
             [constraints addObject:[NSLayoutConstraint constraintWithItem:[_RangeLabels firstObject]
-                                                                attribute:NSLayoutAttributeCenterY
+                                                                attribute:NSLayoutAttributeBottom
                                                                 relatedBy:NSLayoutRelationEqual
                                                                    toItem:_slider
                                                                 attribute:NSLayoutAttributeBottom
@@ -415,46 +412,28 @@
                                                                multiplier:1.0
                                                                  constant:SideLabelMargin]];
             
-            // Limit the height of the descriptionLabels
-            /*[self addConstraint:[NSLayoutConstraint constraintWithItem:self.rightRangeDescriptionLabel
-                                                             attribute:NSLayoutAttributeHeight
-                                                             relatedBy:NSLayoutRelationLessThanOrEqual
-                                                                toItem:_slider
-                                                             attribute:NSLayoutAttributeHeight
-                                                            multiplier:0.3
-                                                              constant:SliderMargin]];
-            
-            [self addConstraint:[NSLayoutConstraint constraintWithItem:self.leftRangeDescriptionLabel
-                                                             attribute:NSLayoutAttributeHeight
-                                                             relatedBy:NSLayoutRelationLessThanOrEqual
-                                                                toItem:_slider
-                                                             attribute:NSLayoutAttributeHeight
-                                                            multiplier:0.3
-                                                              constant:SliderMargin]];
-            
-            [self addConstraint:[NSLayoutConstraint constraintWithItem:self.middleRangeDescriptionLabel
-                                                             attribute:NSLayoutAttributeHeight
-                                                             relatedBy:NSLayoutRelationLessThanOrEqual
-                                                                toItem:_slider
-                                                             attribute:NSLayoutAttributeHeight
-                                                            multiplier:0.3
-                                                              constant:SliderMargin]];*/
+            // Set the height of the descriptionLabels
+            [constraints addObjectsFromArray:
+             [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_valueLabel]-(>=0)-[_rightRangeDescriptionLabel]-(>=0)-[_middleRangeDescriptionLabel]-(>=0)-[_leftRangeDescriptionLabel]"
+                                                     options:NSLayoutFormatDirectionLeadingToTrailing
+                                                     metrics:nil
+                                                       views:views]];
             
             
             // Align the descriptionLabels with the rangeViews
             [constraints addObject:[NSLayoutConstraint constraintWithItem:_rightRangeDescriptionLabel
-                                                                attribute:NSLayoutAttributeCenterY
+                                                                attribute:NSLayoutAttributeTop
                                                                 relatedBy:NSLayoutRelationEqual
-                                                                   toItem:[_RangeLabels lastObject]
-                                                                attribute:NSLayoutAttributeCenterY
+                                                                   toItem:_slider
+                                                                attribute:NSLayoutAttributeTop
                                                                multiplier:1.0
                                                                  constant:0.0]];
             
             [constraints addObject:[NSLayoutConstraint constraintWithItem:_leftRangeDescriptionLabel
-                                                                attribute:NSLayoutAttributeCenterY
+                                                                attribute:NSLayoutAttributeBottom
                                                                 relatedBy:NSLayoutRelationEqual
-                                                                   toItem:[_RangeLabels firstObject]
-                                                                attribute:NSLayoutAttributeCenterY
+                                                                   toItem:_slider
+                                                                attribute:NSLayoutAttributeBottom
                                                                multiplier:1.0
                                                                  constant:0.0]];
             
