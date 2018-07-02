@@ -82,7 +82,7 @@ typedef NS_ENUM(NSInteger, ORKTaskViewControllerFinishReason) {
  
  @return the next step that should be displayed. you can return "nextStep" if you don't want a change.
  */
-- (nullable ORKStep *)taskViewController:(ORKTaskViewController *)taskViewController currentStep:(ORKStep *)currentStep nextStep:(ORKStep *)nextStep;
+- (nullable ORKStep *)taskViewController:(ORKTaskViewController *)taskViewController currentStep:(nullable ORKStep *)currentStep nextStep:(nullable ORKStep *)nextStep;
 
 /**
  Tells the delegate that the task has finished.
