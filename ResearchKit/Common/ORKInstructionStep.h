@@ -95,7 +95,7 @@ ORK_CLASS_AVAILABLE
 /** 
  Optional callback for text
  */
-@property (nonatomic, copy, nullable) NSString* (^textBlock)();
+@property (nonatomic, copy, nullable) NSString* (^textBlock)(void);
 
 @end
 

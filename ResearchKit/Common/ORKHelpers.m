@@ -209,7 +209,7 @@ void ORKEnableAutoLayoutForViews(NSArray *views) {
 }
 #endif
 
-NSDateFormatter *ORKResultDateTimeFormatter() {
+NSDateFormatter *ORKResultDateTimeFormatter(void) {
     static NSDateFormatter *dateTimeformatter = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -220,7 +220,7 @@ NSDateFormatter *ORKResultDateTimeFormatter() {
     return dateTimeformatter;
 }
 
-NSDateFormatter *ORKResultTimeFormatter() {
+NSDateFormatter *ORKResultTimeFormatter(void) {
     static NSDateFormatter *timeformatter = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -231,7 +231,7 @@ NSDateFormatter *ORKResultTimeFormatter() {
     return timeformatter;
 }
 
-NSDateFormatter *ORKResultDateFormatter() {
+NSDateFormatter *ORKResultDateFormatter(void) {
     static NSDateFormatter *dateformatter = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{

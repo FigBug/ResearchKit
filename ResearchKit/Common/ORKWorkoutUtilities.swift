@@ -127,7 +127,7 @@ public final class ORKWorkoutUtilities: NSObject {
     /**
      List of the distance types to be measured and their associated preferred unit.
      */
-    open static let supportedDistanceTypeIdentifiers : [HKQuantityTypeIdentifier] = {
+    public static let supportedDistanceTypeIdentifiers : [HKQuantityTypeIdentifier] = {
         var types: [HKQuantityTypeIdentifier] = [.distanceWalkingRunning,
                                                  .distanceCycling]
         if #available(iOS 10.0, *), #available(watchOS 3.0, *){
@@ -147,7 +147,7 @@ public final class ORKWorkoutUtilities: NSObject {
     @available(iOS 10.0, *)
     @available(watchOS 3.0, *)
     @objc(queryIdentifiersForWorkoutConfiguration:)
-    open class func queryIdentifiers(for workoutConfiguration: HKWorkoutConfiguration) -> [HKQuantityTypeIdentifier] {
+    public class func queryIdentifiers(for workoutConfiguration: HKWorkoutConfiguration) -> [HKQuantityTypeIdentifier] {
         
         var queryIds: [HKQuantityTypeIdentifier] = [HKQuantityTypeIdentifier.activeEnergyBurned,
                                                     HKQuantityTypeIdentifier.heartRate]
@@ -177,7 +177,7 @@ public final class ORKWorkoutUtilities: NSObject {
      
      @return    Calculated duration
      */
-    open class func computeDurationOfWorkout(withEvents workoutEvents: [HKWorkoutEvent]?, startDate: Date?, endDate: Date?) -> TimeInterval {
+    public class func computeDurationOfWorkout(withEvents workoutEvents: [HKWorkoutEvent]?, startDate: Date?, endDate: Date?) -> TimeInterval {
         var duration = 0.0
         
         if var lastDate = startDate {
@@ -221,8 +221,8 @@ public extension HKWorkoutActivityType {
      @param identifier    The identifier to convert
      @return              An `HKWorkoutActivityType`. Default = `.other`
      */
-    public init(identifier: String) {
-        guard let idx = ORKWorkoutActivityTypeIdentifiers.index(of: identifier),
+    init(identifier: String) {
+        guard let idx = ORKWorkoutActivityTypeIdentifiers.firstIndex(of: identifier),
             let type = HKWorkoutActivityType(rawValue: UInt(idx) + 1)
             else {
                 self = .other
@@ -234,7 +234,7 @@ public extension HKWorkoutActivityType {
     /**
      String identifier for this enum value.
      */
-    public var identifier: String {
+    var identifier: String {
         let idx = self.rawValue
         guard idx >= 1 && idx <= UInt(ORKWorkoutActivityTypeIdentifiers.count) else {
             return "other"
@@ -251,8 +251,8 @@ public extension HKWorkoutEventType {
      @param identifier    The identifier to convert
      @return              An `HKWorkoutEventType` or `nil` if undefined
      */
-    public init?(identifier: String) {
-        guard let idx = ORKWorkoutEventTypeIdentifiers.index(of: identifier),
+    init?(identifier: String) {
+        guard let idx = ORKWorkoutEventTypeIdentifiers.firstIndex(of: identifier),
             let type = HKWorkoutEventType(rawValue: idx + 1) else {
                 return nil
         }
@@ -262,7 +262,7 @@ public extension HKWorkoutEventType {
     /**
      String identifier for this enum value.
     */
-    public var identifier: String {
+    var identifier: String {
         let idx = self.rawValue
         guard idx >= 1 && idx <= ORKWorkoutEventTypeIdentifiers.count else {
             return "other"
@@ -281,8 +281,8 @@ public extension HKWorkoutSessionLocationType {
      @param identifier    The identifier to convert
      @return              An `HKWorkoutSessionLocationType`. Default = `.unknown`
      */
-    public init(identifier: String) {
-        guard let idx = ORKWorkoutSessionLocationTypeIdentifiers.index(of: identifier),
+    init(identifier: String) {
+        guard let idx = ORKWorkoutSessionLocationTypeIdentifiers.firstIndex(of: identifier),
             let type = HKWorkoutSessionLocationType(rawValue: Int(idx) + 1)
             else {
                 self = .unknown
@@ -294,7 +294,7 @@ public extension HKWorkoutSessionLocationType {
     /**
      String identifier for this enum value.
      */
-    public var identifier: String {
+    var identifier: String {
         let idx = self.rawValue
         guard idx >= 1 && idx <= ORKWorkoutSessionLocationTypeIdentifiers.count else {
             return ORKWorkoutSessionLocationTypeIdentifiers[0]

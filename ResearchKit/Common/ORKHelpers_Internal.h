@@ -156,8 +156,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 // Bundle for video assets
 NSBundle *ORKAssetsBundle(void);
-NSBundle *ORKBundle();
-NSBundle *ORKDefaultLocaleBundle();
+NSBundle *ORKBundle(void);
+NSBundle *ORKDefaultLocaleBundle(void);
 
 // Pass 0xcccccc and get color #cccccc
 UIColor *ORKRGB(uint32_t x);
@@ -167,7 +167,7 @@ id findInArrayByKey(NSArray * array, NSString *key, id value);
 
 NSString *ORKSignatureStringFromDate(NSDate *date);
 
-NSURL *ORKCreateRandomBaseURL();
+NSURL *ORKCreateRandomBaseURL(void);
 
 // Marked extern so it is accessible to unit tests
 ORK_EXTERN NSString *ORKFileProtectionFromMode(ORKFileProtectionMode mode);
@@ -184,8 +184,8 @@ UIImage *ORKImageWithColor(UIColor *color);
 void ORKEnableAutoLayoutForViews(NSArray *views);
 #endif
 
-NSDateComponentsFormatter *ORKTimeIntervalLabelFormatter();
-NSDateComponentsFormatter *ORKDurationStringFormatter();
+NSDateComponentsFormatter *ORKTimeIntervalLabelFormatter(void);
+NSDateComponentsFormatter *ORKDurationStringFormatter(void);
 
 NSDateFormatter *ORKTimeOfDayLabelFormatter();
 NSCalendar *ORKTimeOfDayReferenceCalendar();
