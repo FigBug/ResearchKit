@@ -131,7 +131,7 @@ NSMutableArray* globalResultsArr = nil;
     int cx;
     
     if (screenSize >= 736) {
-        cx = 74;  // iPhone 6+/7+
+        cx = 50;  // iPhone 6+/7+
     } else if (screenSize >= 667) {
         cx = 45; // iPhone 6/7
     } else {
@@ -240,8 +240,8 @@ NSMutableArray* globalResultsArr = nil;
     
     for (int i = 0; i < chunks.count; i += 2) {
         CGPoint pp;
-        pp.x = [[chunks objectAtIndex:i + 0] floatValue]/1000;
-        pp.y = [[chunks objectAtIndex:i + 1] floatValue]/1000;
+        pp.x = [[chunks objectAtIndex:i + 0] floatValue];
+        pp.y = [[chunks objectAtIndex:i + 1] floatValue];
         
         if (invertX) pp.x = 1.0f - pp.x;
         if (invertY) pp.y = 1.0f - pp.y;
