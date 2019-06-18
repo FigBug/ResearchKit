@@ -37,7 +37,7 @@
     CAShapeLayer *_crossLayer;
 }
 
-static const CGFloat RoundGoNoGoViewDiameter = 400;//122;
+static const CGFloat RoundGoNoGoViewDiameter = 300;//122;
 
 - (instancetype)initWithBackgroundColor:(UIColor*)color {
     self = [super init];
