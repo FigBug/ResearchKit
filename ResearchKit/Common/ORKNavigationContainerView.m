@@ -214,6 +214,7 @@
 
 - (void)setContinueEnabled:(BOOL)continueEnabled {
     _continueEnabled = continueEnabled;
+    [self setUpConstraints];
     [self updateContinueAndSkipEnabled];
 }
 
@@ -259,6 +260,11 @@
 }
 
 - (void)setUpConstraints {
+    if (previousContraints != nil && previousContraints.count > 0) {
+        [NSLayoutConstraint deactivateConstraints: previousContraints];
+        previousContraints = nil;
+    }
+
     NSMutableArray *constraints = [NSMutableArray new];
     
     NSDictionary *views = NSDictionaryOfVariableBindings(_skipButton, _continueButton, _footnoteLabel);
@@ -303,28 +309,70 @@
     [constraints addObject:_footnoteToSkipButtonConstraint];
     
     //center items
-    for (UIView *view in [NSArray arrayWithObjects: _continueButton, _footnoteLabel, nil]) {
-        [constraints addObject:[NSLayoutConstraint constraintWithItem:view
+    if (![self isOptional]) {
+        for (UIView *view in [NSArray arrayWithObjects: _continueButton, _footnoteLabel, nil]) {
+            [constraints addObject:[NSLayoutConstraint constraintWithItem:view
+                                                                attribute:NSLayoutAttributeCenterX
+                                                                relatedBy:NSLayoutRelationEqual
+                                                                   toItem:self
+                                                                attribute:NSLayoutAttributeCenterX
+                                                               multiplier:1.0
+                                                                 constant:0.0]];
+
+            [constraints addObject:[NSLayoutConstraint constraintWithItem:view
+                                                                attribute:NSLayoutAttributeWidth
+                                                                relatedBy:NSLayoutRelationLessThanOrEqual
+                                                                   toItem:self
+                                                                attribute:NSLayoutAttributeWidth
+                                                               multiplier:1.0
+                                                                 constant:0.0]];
+
+    #ifdef LAYOUT_DEBUG
+            view.backgroundColor = [[UIColor blueColor] colorWithAlphaComponent:0.3];
+            view.layer.borderColor = [UIColor cyanColor].CGColor;
+            view.layer.borderWidth = 1.0;
+    #endif
+        }
+    } else {
+        [constraints addObject:[NSLayoutConstraint constraintWithItem:_continueButton
                                                             attribute:NSLayoutAttributeCenterX
                                                             relatedBy:NSLayoutRelationEqual
                                                                toItem:self
                                                             attribute:NSLayoutAttributeCenterX
                                                            multiplier:1.0
-                                                             constant:0.0]];
+                                                             constant:-93.0]];
 
-        [constraints addObject:[NSLayoutConstraint constraintWithItem:view
+        [constraints addObject:[NSLayoutConstraint constraintWithItem:_continueButton
                                                             attribute:NSLayoutAttributeWidth
                                                             relatedBy:NSLayoutRelationLessThanOrEqual
                                                                toItem:self
                                                             attribute:NSLayoutAttributeWidth
                                                            multiplier:1.0
                                                              constant:0.0]];
-        
+
+        for (UIView *view in [NSArray arrayWithObjects: _footnoteLabel, nil]) {
+            [constraints addObject:[NSLayoutConstraint constraintWithItem:view
+                                                                attribute:NSLayoutAttributeCenterX
+                                                                relatedBy:NSLayoutRelationEqual
+                                                                   toItem:self
+                                                                attribute:NSLayoutAttributeCenterX
+                                                               multiplier:1.0
+                                                                 constant:0.0]];
+
+            [constraints addObject:[NSLayoutConstraint constraintWithItem:view
+                                                                attribute:NSLayoutAttributeWidth
+                                                                relatedBy:NSLayoutRelationLessThanOrEqual
+                                                                   toItem:self
+                                                                attribute:NSLayoutAttributeWidth
+                                                               multiplier:1.0
+                                                                 constant:0.0]];
+
 #ifdef LAYOUT_DEBUG
-        view.backgroundColor = [[UIColor blueColor] colorWithAlphaComponent:0.3];
-        view.layer.borderColor = [UIColor cyanColor].CGColor;
-        view.layer.borderWidth = 1.0;
+            view.backgroundColor = [[UIColor blueColor] colorWithAlphaComponent:0.3];
+            view.layer.borderColor = [UIColor cyanColor].CGColor;
+            view.layer.borderWidth = 1.0;
 #endif
+        }
     }
     
     {
@@ -397,6 +445,7 @@
         [constraints addObject:heightConstraint];
     }
     [NSLayoutConstraint activateConstraints:constraints];
+    previousContraints = constraints;
 }
 
 - (void)updateConstraints {
