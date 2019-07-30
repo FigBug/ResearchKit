@@ -128,6 +128,11 @@
                 [self addSubview:range];
                 [_RangeLabels addObject:range];
             }
+
+            if (_RangeLabels.count >= 4) {
+                [_RangeLabels[1] setHidden:YES];
+                [_RangeLabels[_RangeLabels.count - 2] setHidden:YES];
+            }
             
             _leftRangeDescriptionLabel = [[ORKScaleRangeDescriptionLabel alloc] initWithFrame:CGRectZero];
             _leftRangeDescriptionLabel.lineBreakMode = NSLineBreakByWordWrapping;
